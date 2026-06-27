@@ -1,13 +1,14 @@
 package com.tss.FoodApp.Model.Users;
 
-public class DeliveryPartner implements Iusers{
-    @Override
-    public void login() {
+public class DeliveryPartner {
+        boolean isActive;
+        double totalEarnings;
+
+    void toggleStatus() {
 
     }
 
-    @Override
-    public void createUser() {
+    void completeOrder() {
 
     }
 }

@@ -1,5 +1,5 @@
 package com.tss.FoodApp.Services.Payment;
 
 public interface IPaymentStrategy {
-    void makePayment();
+    boolean processPayment(double amount);
 }

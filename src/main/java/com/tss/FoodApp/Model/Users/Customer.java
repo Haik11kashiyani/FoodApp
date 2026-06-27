@@ -1,13 +1,11 @@
 package com.tss.FoodApp.Model.Users;
 
-public class Customer implements Iusers{
-    @Override
-    public void login() {
+import java.util.ArrayList;
+import java.util.List;
 
-    }
+public class Customer {
+            List<> Cart = new ArrayList<>();
+            void addToCart();
+        void viewMenu();
 
-    @Override
-    public void createUser() {
-
-    }
 }
