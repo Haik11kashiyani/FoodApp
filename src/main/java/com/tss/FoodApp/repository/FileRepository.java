@@ -1,17 +1,12 @@
-package com.tss.FoodApp;
+package com.tss.FoodApp.repository;
 
 import java.io.*;
 import java.util.*;
+import com.tss.FoodApp.util.AppLogger;
+import com.tss.FoodApp.exception.AppException;
+import com.tss.FoodApp.exception.EntityNotFoundException;
 
-interface Repository<T> {
-    T save(T entity);
-    Optional<T> findById(String id);
-    List<T> findAll();
-    T update(T entity);
-    boolean deleteById(String id);
-}
-
-class FileRepository<T> implements Repository<T> {
+public class FileRepository<T> implements Repository<T> {
 
     private final String filePath;
     private Map<String, T> cache;
