@@ -1,35 +1,15 @@
-package com.tss.FoodApp.factory;
+package com.tss.FoodApp;
 
-import com.tss.FoodApp.config.AppConfig;
-import com.tss.FoodApp.enums.Role;
-import com.tss.FoodApp.facade.OrderProcessingFacade;
-import com.tss.FoodApp.model.*;
-import com.tss.FoodApp.repository.FileRepository;
-import com.tss.FoodApp.repository.Repository;
-import com.tss.FoodApp.service.*;
-import com.tss.FoodApp.util.IdGenerator;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * SINGLETON PATTERN + FACTORY METHOD
- *
- * SINGLETON: Only ONE instance of ServiceRegistry exists. All services are created once
- * and reused throughout the app. Prevents duplicate repositories (which would cause
- * data inconsistency — two repos loading the same file independently).
- *
- * Why Singleton not static methods?
- * → Singleton holds state (repository/service instances). Static methods can't easily
- *   manage object lifecycle and initialization order.
- * → Alternative: static fields + static initializer block — works but harder to control
- *   when initialization happens. Singleton's getInstance() is explicit.
- *
- * FACTORY METHOD: createUser() creates the right User subtype based on Role.
- * Why not put 'new Admin()' directly in the menu?
- * → If Admin constructor changes (e.g., adds 'department' parameter), you'd fix it in
- *   every place Admin is created. Factory centralizes creation — fix in one place.
  */
 public class ServiceRegistry {
 
-    // Singleton instance — volatile for thread safety
     private static volatile ServiceRegistry instance;
 
     // --- Repositories ---
@@ -49,36 +29,47 @@ public class ServiceRegistry {
     // --- Facade ---
     private final OrderProcessingFacade orderFacade;
 
-    /**
-     * Private constructor — only called by getInstance().
-     * Initializes all repositories and services in correct dependency order.
-     */
+    // --- SOLID registries ---
+    private final Map<Role, DashboardFactory> dashboardFactories;
+
     private ServiceRegistry() {
-        // 1. Create repositories (one per entity type, each with its own file)
         this.adminRepo = new FileRepository<>(AppConfig.ADMIN_FILE);
         this.customerRepo = new FileRepository<>(AppConfig.CUSTOMER_FILE);
         this.driverRepo = new FileRepository<>(AppConfig.DELIVERY_PARTNER_FILE);
         this.menuRepo = new FileRepository<>(AppConfig.MENU_FILE);
         this.orderRepo = new FileRepository<>(AppConfig.ORDER_FILE);
 
-        // 2. Create services (inject repositories via constructor — Dependency Inversion)
         this.authService = new AuthService(adminRepo, customerRepo, driverRepo);
         this.userService = new UserService(adminRepo, customerRepo, driverRepo);
         this.menuService = new MenuService(menuRepo);
         this.cartService = new CartService();
-        this.orderService = new OrderService(orderRepo, driverRepo);
 
-        // 3. Create facade (inject services)
-        this.orderFacade = new OrderProcessingFacade(cartService, orderService);
+        // Wire Order Event Listeners (OCP)
+        List<OrderEventListener> listeners = new ArrayList<>();
+        listeners.add(new DriverAvailabilityListener(driverRepo));
+
+        this.orderService = new OrderService(orderRepo, driverRepo, listeners);
+
+        // Inject payment strategies map
+        Map<PaymentMode, IPaymentStrategy> paymentStrategies = new HashMap<>();
+        paymentStrategies.put(PaymentMode.CASH, new CashPayment());
+        paymentStrategies.put(PaymentMode.UPI, new UpiPayment());
+
+        // Default discount strategy (OCP)
+        DiscountStrategy discountStrategy = new PercentageDiscount(
+                AppConfig.DEFAULT_DISCOUNT_PERCENTAGE,
+                AppConfig.DEFAULT_DISCOUNT_THRESHOLD
+        );
+
+        this.orderFacade = new OrderProcessingFacade(cartService, orderService, paymentStrategies, discountStrategy);
+
+        // Wire Role Dashboard Factories (OCP + DIP)
+        this.dashboardFactories = new HashMap<>();
+        dashboardFactories.put(Role.ADMIN, (user, reg) -> new AdminMenu(user, reg).show());
+        dashboardFactories.put(Role.CUSTOMER, (user, reg) -> new CustomerMenu(user, reg).show());
+        dashboardFactories.put(Role.DELIVERY_PARTNER, (user, reg) -> new DeliveryPartnerMenu(user, reg).show());
     }
 
-    /**
-     * Get the singleton instance. Uses double-checked locking for thread safety.
-     * Why double-checked locking?
-     * → synchronized is slow. We only need it during first creation.
-     * → After instance exists, all calls skip the synchronized block — fast.
-     * → volatile prevents instruction reordering issues.
-     */
     public static ServiceRegistry getInstance() {
         if (instance == null) {
             synchronized (ServiceRegistry.class) {
@@ -90,16 +81,6 @@ public class ServiceRegistry {
         return instance;
     }
 
-    // ==================== FACTORY METHOD ====================
-
-    /**
-     * Factory Method — Creates the correct User subtype based on Role.
-     *
-     * Why switch expression (Java 14+) not if-else?
-     * → switch expression is exhaustive — compiler warns if a Role is not handled.
-     * → if-else can silently miss a case. switch forces you to handle all enum values.
-     * → Also: switch expression returns a value directly — no need for 'break' or temp variable.
-     */
     public static User createUser(Role role, String username, String password, String name,
                                   String phone, String address, String vehicleType) {
         String id = IdGenerator.generateId();
@@ -124,10 +105,13 @@ public class ServiceRegistry {
     public OrderService getOrderService() { return orderService; }
     public OrderProcessingFacade getOrderFacade() { return orderFacade; }
 
-    // Expose repos for async loading
     public Repository<Admin> getAdminRepo() { return adminRepo; }
     public Repository<Customer> getCustomerRepo() { return customerRepo; }
     public Repository<DeliveryPartner> getDriverRepo() { return driverRepo; }
     public Repository<MenuItem> getMenuRepo() { return menuRepo; }
     public Repository<Order> getOrderRepo() { return orderRepo; }
+
+    public DashboardFactory getDashboardFactory(Role role) {
+        return dashboardFactories.get(role);
+    }
 }
