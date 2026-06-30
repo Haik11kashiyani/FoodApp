@@ -1,0 +1,47 @@
+[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/admins.dat
+[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/customers.dat
+[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/delivery_partners.dat
+[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/menu_items.dat
+[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/orders.dat
+[2026-06-29 19:44:01] [INFO] Application starting with lazy loading...
+[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/customers.dat | Records: 0
+[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/admins.dat | Records: 0
+[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/menu_items.dat | Records: 0
+[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/delivery_partners.dat | Records: 0
+[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/orders.dat | Records: 0
+[2026-06-29 19:44:01] [INFO] Entity saved to data/admins.dat
+[2026-06-29 19:44:01] [INFO] Default admin seeded: admin
+[2026-06-29 19:44:01] [INFO] Application started successfully.
+[2026-06-29 19:45:07] [INFO] User logged in: admin | Role: ADMIN
+[2026-06-29 19:45:07] [INFO] Application shutting down.
+[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/admins.dat
+[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/customers.dat
+[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/delivery_partners.dat
+[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/menu_items.dat
+[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/orders.dat
+[2026-06-29 19:54:35] [INFO] Application starting with lazy loading...
+[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/customers.dat | Records: 0
+[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/delivery_partners.dat | Records: 0
+[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/menu_items.dat | Records: 0
+[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/orders.dat | Records: 0
+[2026-06-29 19:54:35] [ERROR] Failed to load data from data/admins.dat | Cause: com.tss.FoodApp.Admin
+[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/admins.dat | Records: 0
+[2026-06-29 19:54:35] [INFO] Entity saved to data/admins.dat
+[2026-06-29 19:54:35] [INFO] Default admin seeded: admin
+[2026-06-29 19:54:35] [INFO] Application started successfully.
+[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/admins.dat
+[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/customers.dat
+[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/delivery_partners.dat
+[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/menu_items.dat
+[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/orders.dat
+[2026-06-29 19:54:57] [INFO] Application starting with lazy loading...
+[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/customers.dat | Records: 0
+[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/admins.dat | Records: 0
+[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/delivery_partners.dat | Records: 0
+[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/menu_items.dat | Records: 0
+[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/orders.dat | Records: 0
+[2026-06-29 19:54:57] [INFO] Entity saved to data/admins.dat
+[2026-06-29 19:54:57] [INFO] Default admin seeded: admin
+[2026-06-29 19:54:57] [INFO] Application started successfully.
+[2026-06-29 19:55:12] [INFO] User logged in: admin | Role: ADMIN
+[2026-06-29 19:55:12] [INFO] Application shutting down.
