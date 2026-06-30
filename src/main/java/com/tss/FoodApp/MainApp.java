@@ -6,7 +6,9 @@ import java.util.concurrent.TimeUnit;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.exception.*;
 import com.tss.FoodApp.service.AuthService;
-import com.tss.FoodApp.ui.DashboardFactory;
+import com.tss.FoodApp.ui.AdminMenu;
+import com.tss.FoodApp.ui.CustomerMenu;
+import com.tss.FoodApp.ui.DeliveryPartnerMenu;
 import com.tss.FoodApp.util.AppLogger;
 import com.tss.FoodApp.util.InputUtil;
 
@@ -65,11 +67,18 @@ public class MainApp {
 
             System.out.println("Welcome, " + user.getName() + "!");
 
-            DashboardFactory factory = registry.getDashboardFactory(user.getRole());
-            if (factory != null) {
-                factory.showDashboard(user, registry);
-            } else {
-                throw new AppException("No dashboard factory registered for role: " + user.getRole());
+            switch (user.getRole()) {
+                case ADMIN:
+                    new AdminMenu(user, registry).show();
+                    break;
+                case CUSTOMER:
+                    new CustomerMenu(user, registry).show();
+                    break;
+                case DELIVERY_PARTNER:
+                    new DeliveryPartnerMenu(user, registry).show();
+                    break;
+                default:
+                    throw new AppException("No dashboard registered for role: " + user.getRole());
             }
         } catch (AuthenticationException e) {
             System.out.println("Error: Login failed: " + e.getMessage());

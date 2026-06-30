@@ -1,22 +1,14 @@
 package com.tss.FoodApp;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import com.tss.FoodApp.config.AppConfig;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.*;
 import com.tss.FoodApp.service.*;
-import com.tss.FoodApp.ui.*;
 import com.tss.FoodApp.util.*;
 
-/**
- * SINGLETON PATTERN + FACTORY METHOD
- */
 public class ServiceRegistry {
 
-    private static volatile ServiceRegistry instance;
+    private static ServiceRegistry instance;
 
     // --- Repositories ---
     private final Repository<Admin> adminRepo;
@@ -35,9 +27,6 @@ public class ServiceRegistry {
     // --- Facade ---
     private final OrderProcessingFacade orderFacade;
 
-    // --- SOLID registries ---
-    private final Map<Role, DashboardFactory> dashboardFactories;
-
     private ServiceRegistry() {
         this.adminRepo = new FileRepository<>(AppConfig.ADMIN_FILE);
         this.customerRepo = new FileRepository<>(AppConfig.CUSTOMER_FILE);
@@ -49,40 +38,20 @@ public class ServiceRegistry {
         this.userService = new UserService(adminRepo, customerRepo, driverRepo);
         this.menuService = new MenuService(menuRepo);
         this.cartService = new CartService();
+        this.orderService = new OrderService(orderRepo, driverRepo);
 
-        // Wire Order Event Listeners (OCP)
-        List<OrderEventListener> listeners = new ArrayList<>();
-        listeners.add(new DriverAvailabilityListener(driverRepo));
-
-        this.orderService = new OrderService(orderRepo, driverRepo, listeners);
-
-        // Inject payment strategies map
-        Map<PaymentMode, IPaymentStrategy> paymentStrategies = new HashMap<>();
-        paymentStrategies.put(PaymentMode.CASH, new CashPayment());
-        paymentStrategies.put(PaymentMode.UPI, new UpiPayment());
-
-        // Default discount strategy (OCP)
-        DiscountStrategy discountStrategy = new PercentageDiscount(
+        // Default discount strategy
+        PercentageDiscount discountStrategy = new PercentageDiscount(
                 AppConfig.DEFAULT_DISCOUNT_PERCENTAGE,
                 AppConfig.DEFAULT_DISCOUNT_THRESHOLD
         );
 
-        this.orderFacade = new OrderProcessingFacade(cartService, orderService, paymentStrategies, discountStrategy);
-
-        // Wire Role Dashboard Factories (OCP + DIP)
-        this.dashboardFactories = new HashMap<>();
-        dashboardFactories.put(Role.ADMIN, (user, reg) -> new AdminMenu(user, reg).show());
-        dashboardFactories.put(Role.CUSTOMER, (user, reg) -> new CustomerMenu(user, reg).show());
-        dashboardFactories.put(Role.DELIVERY_PARTNER, (user, reg) -> new DeliveryPartnerMenu(user, reg).show());
+        this.orderFacade = new OrderProcessingFacade(cartService, orderService, discountStrategy);
     }
 
     public static ServiceRegistry getInstance() {
         if (instance == null) {
-            synchronized (ServiceRegistry.class) {
-                if (instance == null) {
-                    instance = new ServiceRegistry();
-                }
-            }
+            instance = new ServiceRegistry();
         }
         return instance;
     }
@@ -116,8 +85,4 @@ public class ServiceRegistry {
     public Repository<DeliveryPartner> getDriverRepo() { return driverRepo; }
     public Repository<MenuItem> getMenuRepo() { return menuRepo; }
     public Repository<Order> getOrderRepo() { return orderRepo; }
-
-    public DashboardFactory getDashboardFactory(Role role) {
-        return dashboardFactories.get(role);
-    }
 }

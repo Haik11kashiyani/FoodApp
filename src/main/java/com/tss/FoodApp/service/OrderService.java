@@ -1,7 +1,6 @@
 package com.tss.FoodApp.service;
 
 import java.util.*;
-import java.util.stream.Collectors;
 import com.tss.FoodApp.config.AppConfig;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.Repository;
@@ -15,14 +14,11 @@ import com.tss.FoodApp.util.InputUtil;
 public class OrderService {
     private final Repository<Order> orderRepo;
     private final Repository<DeliveryPartner> driverRepo;
-    private final List<OrderEventListener> listeners;
     private final Random random = new Random();
 
-    public OrderService(Repository<Order> orderRepo, Repository<DeliveryPartner> driverRepo,
-                        List<OrderEventListener> listeners) {
+    public OrderService(Repository<Order> orderRepo, Repository<DeliveryPartner> driverRepo) {
         this.orderRepo = orderRepo;
         this.driverRepo = driverRepo;
-        this.listeners = listeners;
     }
 
     public Order createOrder(String customerId, String customerName, List<CartItem> items,
@@ -37,9 +33,12 @@ public class OrderService {
     }
 
     public DeliveryPartner assignRandomDriver() {
-        List<DeliveryPartner> availableDrivers = driverRepo.findAll().stream()
-                .filter(d -> d.isActive() && d.isAvailable())
-                .collect(Collectors.toList());
+        List<DeliveryPartner> availableDrivers = new ArrayList<>();
+        for (DeliveryPartner d : driverRepo.findAll()) {
+            if (d.isActive() && d.isAvailable()) {
+                availableDrivers.add(d);
+            }
+        }
 
         if (availableDrivers.isEmpty()) {
             throw new AppException("No delivery partners available at the moment. Please try again later.");
@@ -51,8 +50,11 @@ public class OrderService {
     }
 
     public Order updateOrderStatus(String orderId, OrderStatus newStatus) {
-        Order order = orderRepo.findById(orderId)
-                .orElseThrow(() -> new EntityNotFoundException("Order", orderId));
+        Optional<Order> opt = orderRepo.findById(orderId);
+        if (!opt.isPresent()) {
+            throw new EntityNotFoundException("Order", orderId);
+        }
+        Order order = opt.get();
 
         if (!order.getStatus().canTransitionTo(newStatus)) {
             throw new ValidationException(
@@ -63,8 +65,15 @@ public class OrderService {
         order.setStatus(newStatus);
         orderRepo.update(order);
 
-        for (OrderEventListener listener : listeners) {
-            listener.onStatusChanged(order, newStatus);
+        // Handle delivery driver availability directly without listeners
+        if (newStatus == OrderStatus.DELIVERED) {
+            Optional<DeliveryPartner> driverOpt = driverRepo.findById(order.getDeliveryPartnerId());
+            if (driverOpt.isPresent()) {
+                DeliveryPartner driver = driverOpt.get();
+                driver.setAvailable(true);
+                driverRepo.update(driver);
+                AppLogger.info("Driver " + driver.getName() + " marked available after delivery");
+            }
         }
 
         AppLogger.info("Order " + orderId + " status updated to: " + newStatus);
@@ -81,30 +90,58 @@ public class OrderService {
     }
 
     public List<Order> getOrdersByCustomer(String customerId) {
-        return orderRepo.findAll().stream()
-                .filter(o -> o.getCustomerId().equals(customerId))
-                .sorted(Comparator.comparing(Order::getOrderedAt).reversed())
-                .collect(Collectors.toList());
+        List<Order> customerOrders = new ArrayList<>();
+        for (Order o : orderRepo.findAll()) {
+            if (o.getCustomerId().equals(customerId)) {
+                customerOrders.add(o);
+            }
+        }
+        customerOrders.sort(new Comparator<Order>() {
+            @Override
+            public int compare(Order o1, Order o2) {
+                return o2.getOrderedAt().compareTo(o1.getOrderedAt());
+            }
+        });
+        return customerOrders;
     }
 
     public List<Order> getOrdersByDriver(String driverId) {
-        return orderRepo.findAll().stream()
-                .filter(o -> o.getDeliveryPartnerId().equals(driverId))
-                .sorted(Comparator.comparing(Order::getOrderedAt).reversed())
-                .collect(Collectors.toList());
+        List<Order> driverOrders = new ArrayList<>();
+        for (Order o : orderRepo.findAll()) {
+            if (o.getDeliveryPartnerId().equals(driverId)) {
+                driverOrders.add(o);
+            }
+        }
+        driverOrders.sort(new Comparator<Order>() {
+            @Override
+            public int compare(Order o1, Order o2) {
+                return o2.getOrderedAt().compareTo(o1.getOrderedAt());
+            }
+        });
+        return driverOrders;
     }
 
     public List<Order> getActiveOrdersForDriver(String driverId) {
-        return orderRepo.findAll().stream()
-                .filter(o -> o.getDeliveryPartnerId().equals(driverId))
-                .filter(o -> o.getStatus() != OrderStatus.DELIVERED && o.getStatus() != OrderStatus.CANCELLED)
-                .collect(Collectors.toList());
+        List<Order> activeOrders = new ArrayList<>();
+        for (Order o : orderRepo.findAll()) {
+            if (o.getDeliveryPartnerId().equals(driverId)) {
+                if (o.getStatus() != OrderStatus.DELIVERED && o.getStatus() != OrderStatus.CANCELLED) {
+                    activeOrders.add(o);
+                }
+            }
+        }
+        return activeOrders;
     }
 
     public List<Order> getAllOrders() {
-        return orderRepo.findAll().stream()
-                .sorted(Comparator.comparing(Order::getOrderedAt).reversed())
-                .collect(Collectors.toList());
+        List<Order> all = new ArrayList<>(orderRepo.findAll());
+        all.sort(new Comparator<Order>() {
+            @Override
+            public int compare(Order o1, Order o2) {
+                return o2.getOrderedAt().compareTo(o1.getOrderedAt());
+            }
+        });
+        return all;
     }
 
     public void printInvoice(Order order) {

@@ -10,14 +10,22 @@ public class CartService {
     private final Map<String, List<CartItem>> carts = new HashMap<>();
 
     public void addToCart(String customerId, MenuItem menuItem, int quantity) {
-        List<CartItem> cart = carts.computeIfAbsent(customerId, k -> new ArrayList<>());
+        List<CartItem> cart = carts.get(customerId);
+        if (cart == null) {
+            cart = new ArrayList<>();
+            carts.put(customerId, cart);
+        }
 
-        Optional<CartItem> existing = cart.stream()
-                .filter(ci -> ci.getMenuItemId().equals(menuItem.getId()))
-                .findFirst();
+        CartItem existing = null;
+        for (CartItem ci : cart) {
+            if (ci.getMenuItemId().equals(menuItem.getId())) {
+                existing = ci;
+                break;
+            }
+        }
 
-        if (existing.isPresent()) {
-            existing.get().setQuantity(existing.get().getQuantity() + quantity);
+        if (existing != null) {
+            existing.setQuantity(existing.getQuantity() + quantity);
             AppLogger.info("Cart updated - increased quantity for: " + menuItem.getName());
         } else {
             cart.add(new CartItem(menuItem.getId(), menuItem.getName(), menuItem.getPrice(), quantity));
@@ -27,32 +35,51 @@ public class CartService {
 
     public void removeFromCart(String customerId, String menuItemId) {
         List<CartItem> cart = getCart(customerId);
-        boolean removed = cart.removeIf(ci -> ci.getMenuItemId().equals(menuItemId));
-        if (!removed) {
+        CartItem toRemove = null;
+        for (CartItem ci : cart) {
+            if (ci.getMenuItemId().equals(menuItemId)) {
+                toRemove = ci;
+                break;
+            }
+        }
+        if (toRemove == null) {
             throw new EntityNotFoundException("CartItem", menuItemId);
         }
+        cart.remove(toRemove);
         AppLogger.info("Item removed from cart | Customer: " + customerId);
     }
 
     public void updateQuantity(String customerId, String menuItemId, int newQuantity) {
         List<CartItem> cart = getCart(customerId);
-        CartItem item = cart.stream()
-                .filter(ci -> ci.getMenuItemId().equals(menuItemId))
-                .findFirst()
-                .orElseThrow(() -> new EntityNotFoundException("CartItem", menuItemId));
+        CartItem item = null;
+        for (CartItem ci : cart) {
+            if (ci.getMenuItemId().equals(menuItemId)) {
+                item = ci;
+                break;
+            }
+        }
+        if (item == null) {
+            throw new EntityNotFoundException("CartItem", menuItemId);
+        }
 
         item.setQuantity(newQuantity);
         AppLogger.info("Cart quantity updated: " + item.getItemName() + " -> " + newQuantity);
     }
 
     public List<CartItem> getCart(String customerId) {
-        return carts.getOrDefault(customerId, new ArrayList<>());
+        List<CartItem> cart = carts.get(customerId);
+        if (cart == null) {
+            return new ArrayList<>();
+        }
+        return cart;
     }
 
     public double getCartTotal(String customerId) {
-        return getCart(customerId).stream()
-                .mapToDouble(CartItem::getSubtotal)
-                .sum();
+        double total = 0;
+        for (CartItem ci : getCart(customerId)) {
+            total += ci.getSubtotal();
+        }
+        return total;
     }
 
     public boolean isCartEmpty(String customerId) {

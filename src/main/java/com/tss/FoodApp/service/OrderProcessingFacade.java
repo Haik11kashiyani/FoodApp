@@ -2,24 +2,21 @@ package com.tss.FoodApp.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.exception.ValidationException;
 import com.tss.FoodApp.exception.PaymentException;
 import com.tss.FoodApp.util.AppLogger;
+import com.tss.FoodApp.util.InputUtil;
 
 public class OrderProcessingFacade {
     private final CartService cartService;
     private final OrderService orderService;
-    private final Map<PaymentMode, IPaymentStrategy> paymentStrategies;
-    private DiscountStrategy discountStrategy;
+    private PercentageDiscount discountStrategy;
 
     public OrderProcessingFacade(CartService cartService, OrderService orderService,
-                                 Map<PaymentMode, IPaymentStrategy> paymentStrategies,
-                                 DiscountStrategy discountStrategy) {
+                                 PercentageDiscount discountStrategy) {
         this.cartService = cartService;
         this.orderService = orderService;
-        this.paymentStrategies = paymentStrategies;
         this.discountStrategy = discountStrategy;
     }
 
@@ -31,7 +28,7 @@ public class OrderProcessingFacade {
         List<CartItem> items = new ArrayList<>(cartService.getCart(customerId));
         double totalAmount = cartService.getCartTotal(customerId);
 
-        // Apply discount (OCP)
+        // Apply discount directly
         double discountAmount = discountStrategy.calculateDiscount(totalAmount);
         if (discountAmount > 0) {
             System.out.println("\n  " + discountStrategy.getDescription());
@@ -39,12 +36,8 @@ public class OrderProcessingFacade {
         }
         double finalAmount = totalAmount - discountAmount;
 
-        // Process payment (OCP)
-        IPaymentStrategy paymentStrategy = paymentStrategies.get(paymentMode);
-        if (paymentStrategy == null) {
-            throw new PaymentException("Unsupported payment mode: " + paymentMode);
-        }
-        paymentStrategy.processPayment(finalAmount);
+        // Process payment directly
+        processPayment(paymentMode, finalAmount);
 
         // Assign driver and create order
         DeliveryPartner driver = orderService.assignRandomDriver();
@@ -59,9 +52,34 @@ public class OrderProcessingFacade {
         return order;
     }
 
-    public DiscountStrategy getDiscountStrategy() { return discountStrategy; }
+    private void processPayment(PaymentMode mode, double amount) {
+        if (mode == PaymentMode.CASH) {
+            System.out.println("\n  Cash Payment Selected");
+            System.out.printf("   Amount to pay on delivery: Rs. %.2f%n", amount);
+            System.out.println("   Status: Payment will be collected on delivery.");
+            AppLogger.info("Cash payment processed for Rs. " + String.format("%.2f", amount));
+        } else if (mode == PaymentMode.UPI) {
+            System.out.println("\n  UPI Payment Selected");
+            String upiId = InputUtil.readLine("   Enter your UPI ID (e.g., name@upi): ");
 
-    public void setDiscountStrategy(DiscountStrategy strategy) {
+            if (!upiId.contains("@")) {
+                AppLogger.warn("Invalid UPI ID entered: " + upiId);
+                throw new PaymentException("Invalid UPI ID format. Must contain '@'.");
+            }
+
+            System.out.printf("   Processing payment of Rs. %.2f via UPI ID: %s%n", amount, upiId);
+            System.out.println("   UPI Payment Successful!");
+            AppLogger.info("UPI payment processed for Rs. " + String.format("%.2f", amount) + " via " + upiId);
+        } else {
+            throw new PaymentException("Unsupported payment mode: " + mode);
+        }
+    }
+
+    public PercentageDiscount getDiscountStrategy() {
+        return discountStrategy;
+    }
+
+    public void setDiscountStrategy(PercentageDiscount strategy) {
         this.discountStrategy = strategy;
         AppLogger.info("Discount strategy updated: " + strategy.getDescription());
     }

@@ -48,28 +48,36 @@ public class UserService {
         return adminRepo.findAll();
     }
 
-    private <T extends User> String tryToggle(Repository<T> repo, String userId) {
-        Optional<T> found = repo.findById(userId);
-        if (found.isPresent()) {
-            T user = found.get();
-            user.setActive(!user.isActive());
-            repo.update(user);
-            String status = user.isActive() ? "Active" : "Inactive";
-            AppLogger.info("User " + user.getUsername() + " set to " + status);
-            return user.getName() + " is now " + status;
-        }
-        return null;
-    }
-
     public String toggleUserStatus(String userId) {
-        String result = tryToggle(adminRepo, userId);
-        if (result != null) return result;
+        Optional<Admin> adminOpt = adminRepo.findById(userId);
+        if (adminOpt.isPresent()) {
+            Admin admin = adminOpt.get();
+            admin.setActive(!admin.isActive());
+            adminRepo.update(admin);
+            String status = admin.isActive() ? "Active" : "Inactive";
+            AppLogger.info("User " + admin.getUsername() + " set to " + status);
+            return admin.getName() + " is now " + status;
+        }
 
-        result = tryToggle(customerRepo, userId);
-        if (result != null) return result;
+        Optional<Customer> customerOpt = customerRepo.findById(userId);
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            customer.setActive(!customer.isActive());
+            customerRepo.update(customer);
+            String status = customer.isActive() ? "Active" : "Inactive";
+            AppLogger.info("User " + customer.getUsername() + " set to " + status);
+            return customer.getName() + " is now " + status;
+        }
 
-        result = tryToggle(driverRepo, userId);
-        if (result != null) return result;
+        Optional<DeliveryPartner> driverOpt = driverRepo.findById(userId);
+        if (driverOpt.isPresent()) {
+            DeliveryPartner driver = driverOpt.get();
+            driver.setActive(!driver.isActive());
+            driverRepo.update(driver);
+            String status = driver.isActive() ? "Active" : "Inactive";
+            AppLogger.info("User " + driver.getUsername() + " set to " + status);
+            return driver.getName() + " is now " + status;
+        }
 
         throw new EntityNotFoundException("User", userId);
     }

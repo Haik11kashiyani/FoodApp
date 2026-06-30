@@ -1,6 +1,5 @@
 package com.tss.FoodApp.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.exception.AppException;
@@ -13,26 +12,11 @@ public class DeliveryPartnerMenu {
     private final DeliveryPartner driver;
     private final OrderService orderService;
     private final UserService userService;
-    private final List<MenuCommand> commands = new ArrayList<>();
 
     public DeliveryPartnerMenu(User user, ServiceRegistry registry) {
         this.driver = (DeliveryPartner) user;
         this.orderService = registry.getOrderService();
         this.userService = registry.getUserService();
-
-        // Register pluggable commands (OCP)
-        commands.add(new AbstractMenuCommand("View Assigned Orders") {
-            @Override public void execute() { viewAssignedOrders(); }
-        });
-        commands.add(new AbstractMenuCommand("Update Order Status") {
-            @Override public void execute() { updateOrderStatus(); }
-        });
-        commands.add(new AbstractMenuCommand("View Delivery History") {
-            @Override public void execute() { viewDeliveryHistory(); }
-        });
-        commands.add(new AbstractMenuCommand("Toggle My Availability") {
-            @Override public void execute() { toggleAvailability(); }
-        });
     }
 
     public void show() {
@@ -42,25 +26,36 @@ public class DeliveryPartnerMenu {
             System.out.println("  Welcome, " + driver.getName() + "!");
             System.out.println("  Status: " + (driver.isAvailable() ? "Available" : "Unavailable"));
             System.out.println("---------------------------------------------");
-
-            for (int i = 0; i < commands.size(); i++) {
-                System.out.println((i + 1) + ". " + commands.get(i).getLabel());
-            }
-            System.out.println("─────────────");
-            System.out.println((commands.size() + 1) + ". Logout");
+            System.out.println("1. View Assigned Orders");
+            System.out.println("2. Update Order Status");
+            System.out.println("3. View Delivery History");
+            System.out.println("4. Toggle My Availability");
+            System.out.println("5. Logout");
             System.out.println("---------------------------------------------");
 
-            int choice = InputUtil.readInt("Enter choice: ", 1, commands.size() + 1);
+            int choice = InputUtil.readInt("Enter choice: ", 1, 5);
 
-            if (choice == commands.size() + 1) {
-                System.out.println("Logged out successfully.");
-                running = false;
-            } else {
-                try {
-                    commands.get(choice - 1).execute();
-                } catch (AppException e) {
-                    System.out.println("Error: " + e.getMessage());
+            try {
+                switch (choice) {
+                    case 1:
+                        viewAssignedOrders();
+                        break;
+                    case 2:
+                        updateOrderStatus();
+                        break;
+                    case 3:
+                        viewDeliveryHistory();
+                        break;
+                    case 4:
+                        toggleAvailability();
+                        break;
+                    case 5:
+                        System.out.println("Logged out successfully.");
+                        running = false;
+                        break;
                 }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }

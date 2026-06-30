@@ -1,9 +1,7 @@
 package com.tss.FoodApp.util;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.tss.FoodApp.config.AppConfig;
@@ -14,7 +12,8 @@ public class AppLogger {
     private AppLogger() {}
 
     public static void info(String message) {
-        writeToFile("INFO", message);
+        String formatted = format("INFO", message);
+        writeToFile(formatted);
     }
 
     public static void warn(String message) {
@@ -37,22 +36,16 @@ public class AppLogger {
         return "[" + LocalDateTime.now().format(FORMATTER) + "] [" + level + "] " + message;
     }
 
-    private static void writeToFile(String level, String message) {
-        writeToFile(format(level, message));
-    }
-
     private static void writeToFile(String formattedMessage) {
         try {
             File logDir = new File(AppConfig.LOG_DIR);
             if (!logDir.exists()) {
                 logDir.mkdirs();
             }
-            try (FileWriter fw = new FileWriter(AppConfig.LOG_FILE, true);
-                 BufferedWriter bw = new BufferedWriter(fw)) {
-                bw.write(formattedMessage);
-                bw.newLine();
-            }
-        } catch (IOException e) {
+            FileWriter fw = new FileWriter(AppConfig.LOG_FILE, true);
+            fw.write(formattedMessage + "\n");
+            fw.close();
+        } catch (Exception e) {
             System.err.println("Failed to write log: " + e.getMessage());
         }
     }

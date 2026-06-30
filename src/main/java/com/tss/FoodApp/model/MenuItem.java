@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class MenuItem implements Serializable {
+import com.tss.FoodApp.repository.Identifiable;
+
+public class MenuItem implements Serializable, Identifiable {
     private static final long serialVersionUID = 1L;
 
     private String id;
@@ -23,6 +25,11 @@ public class MenuItem implements Serializable {
         this.cuisineType = cuisineType;
         this.isAvailable = true;
         this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    }
+
+    public MenuItem(String id, String name, double price, FoodCategory category, CuisineType cuisineType, boolean isAvailable) {
+        this(id, name, price, category, cuisineType);
+        this.isAvailable = isAvailable;
     }
 
     public String getId() { return id; }

@@ -99,13 +99,21 @@ public class AuthService {
     }
 
     private Optional<User> findUserByUsername(String username) {
-        List<User> allUsers = new ArrayList<>();
-        allUsers.addAll(adminRepo.findAll());
-        allUsers.addAll(customerRepo.findAll());
-        allUsers.addAll(driverRepo.findAll());
-
-        return allUsers.stream()
-                .filter(u -> u.getUsername().equalsIgnoreCase(username))
-                .findFirst();
+        for (Admin u : adminRepo.findAll()) {
+            if (u.getUsername().equalsIgnoreCase(username)) {
+                return Optional.of(u);
+            }
+        }
+        for (Customer u : customerRepo.findAll()) {
+            if (u.getUsername().equalsIgnoreCase(username)) {
+                return Optional.of(u);
+            }
+        }
+        for (DeliveryPartner u : driverRepo.findAll()) {
+            if (u.getUsername().equalsIgnoreCase(username)) {
+                return Optional.of(u);
+            }
+        }
+        return Optional.empty();
     }
 }

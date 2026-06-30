@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public abstract class User implements Serializable {
+import com.tss.FoodApp.repository.Identifiable;
+
+public abstract class User implements Serializable, Identifiable {
     private static final long serialVersionUID = 1L;
 
     private String id;

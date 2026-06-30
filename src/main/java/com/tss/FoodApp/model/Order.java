@@ -5,7 +5,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class Order implements Serializable {
+import com.tss.FoodApp.repository.Identifiable;
+
+public class Order implements Serializable, Identifiable {
     private static final long serialVersionUID = 1L;
 
     private String id;

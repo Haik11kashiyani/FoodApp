@@ -92,12 +92,12 @@ public class AuthServiceTest {
 }
 
 // Simple in-memory repository for unit testing
-class InMemoryRepository<T> implements Repository<T> {
+class InMemoryRepository<T extends Identifiable> implements Repository<T> {
     private final Map<String, T> map = new HashMap<>();
 
     @Override
     public T save(T entity) {
-        String id = getEntityId(entity);
+        String id = entity.getId();
         map.put(id, entity);
         return entity;
     }
@@ -114,7 +114,7 @@ class InMemoryRepository<T> implements Repository<T> {
 
     @Override
     public T update(T entity) {
-        String id = getEntityId(entity);
+        String id = entity.getId();
         if (map.containsKey(id)) {
             map.put(id, entity);
             return entity;
@@ -125,14 +125,5 @@ class InMemoryRepository<T> implements Repository<T> {
     @Override
     public boolean deleteById(String id) {
         return map.remove(id) != null;
-    }
-
-    private String getEntityId(T entity) {
-        try {
-            java.lang.reflect.Method method = entity.getClass().getMethod("getId");
-            return (String) method.invoke(entity);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
     }
 }

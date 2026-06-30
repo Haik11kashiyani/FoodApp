@@ -1,6 +1,5 @@
 package com.tss.FoodApp.ui;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.tss.FoodApp.config.AppConfig;
 import com.tss.FoodApp.model.*;
@@ -16,7 +15,6 @@ public class AdminMenu {
     private final AuthService authService;
     private final OrderService orderService;
     private final OrderProcessingFacade orderFacade;
-    private final List<MenuCommand> commands = new ArrayList<>();
 
     public AdminMenu(User admin, ServiceRegistry registry) {
         this.admin = admin;
@@ -25,20 +23,6 @@ public class AdminMenu {
         this.authService = registry.getAuthService();
         this.orderService = registry.getOrderService();
         this.orderFacade = registry.getOrderFacade();
-
-        // Register pluggable commands (OCP)
-        commands.add(new AbstractMenuCommand("Menu Management") {
-            @Override public void execute() { showMenuManagement(); }
-        });
-        commands.add(new AbstractMenuCommand("Discount Settings") {
-            @Override public void execute() { showDiscountSettings(); }
-        });
-        commands.add(new AbstractMenuCommand("User Management") {
-            @Override public void execute() { showUserManagement(); }
-        });
-        commands.add(new AbstractMenuCommand("Orders Management") {
-            @Override public void execute() { showOrdersManagement(); }
-        });
     }
 
     public void show() {
@@ -47,59 +31,178 @@ public class AdminMenu {
             System.out.println("\n=== ADMIN DASHBOARD ===");
             System.out.println("  Welcome, " + admin.getName() + "!");
             System.out.println("---------------------------------------------");
-
-            for (int i = 0; i < commands.size(); i++) {
-                System.out.println((i + 1) + ". " + commands.get(i).getLabel());
-            }
-            System.out.println("─────────────");
-            System.out.println((commands.size() + 1) + ". Logout");
+            System.out.println("1. Menu Management");
+            System.out.println("2. Discount Settings");
+            System.out.println("3. User Management");
+            System.out.println("4. Orders Management");
+            System.out.println("5. Logout");
             System.out.println("---------------------------------------------");
 
-            int choice = InputUtil.readInt("Enter choice: ", 1, commands.size() + 1);
+            int choice = InputUtil.readInt("Enter choice: ", 1, 5);
 
-            if (choice == commands.size() + 1) {
-                System.out.println("Logged out successfully.");
-                running = false;
-            } else {
-                try {
-                    commands.get(choice - 1).execute();
-                } catch (AppException e) {
-                    System.out.println("Error: " + e.getMessage());
+            try {
+                switch (choice) {
+                    case 1:
+                        showMenuManagement();
+                        break;
+                    case 2:
+                        showDiscountSettings();
+                        break;
+                    case 3:
+                        showUserManagement();
+                        break;
+                    case 4:
+                        showOrdersManagement();
+                        break;
+                    case 5:
+                        System.out.println("Logged out successfully.");
+                        running = false;
+                        break;
                 }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
 
     private void showMenuManagement() {
-        InputUtil.runSubMenu("MENU MANAGEMENT",
-            new String[]{"Add Menu Item", "Update Menu Item", "Delete Menu Item", "View All Menu Items"},
-            new Runnable[]{this::addMenuItem, this::updateMenuItem, this::deleteMenuItem, this::viewAllMenuItems});
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== MENU MANAGEMENT ===");
+            System.out.println("1. Add Menu Item");
+            System.out.println("2. Update Menu Item");
+            System.out.println("3. Delete Menu Item");
+            System.out.println("4. View All Menu Items");
+            System.out.println("5. Back");
+            System.out.println("---------------------------------------------");
+
+            int choice = InputUtil.readInt("Enter choice: ", 1, 5);
+            try {
+                switch (choice) {
+                    case 1:
+                        addMenuItem();
+                        break;
+                    case 2:
+                        updateMenuItem();
+                        break;
+                    case 3:
+                        deleteMenuItem();
+                        break;
+                    case 4:
+                        viewAllMenuItems();
+                        break;
+                    case 5:
+                        back = true;
+                        break;
+                }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 
     private void showDiscountSettings() {
-        InputUtil.runSubMenu("DISCOUNT SETTINGS",
-            new String[]{"View Discount Settings", "Update Discount Settings"},
-            new Runnable[]{this::viewDiscountSettings, this::updateDiscountSettings});
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== DISCOUNT SETTINGS ===");
+            System.out.println("1. View Discount Settings");
+            System.out.println("2. Update Discount Settings");
+            System.out.println("3. Back");
+            System.out.println("---------------------------------------------");
+
+            int choice = InputUtil.readInt("Enter choice: ", 1, 3);
+            try {
+                switch (choice) {
+                    case 1:
+                        viewDiscountSettings();
+                        break;
+                    case 2:
+                        updateDiscountSettings();
+                        break;
+                    case 3:
+                        back = true;
+                        break;
+                }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 
     private void showUserManagement() {
-        InputUtil.runSubMenu("USER MANAGEMENT",
-            new String[]{"Add New Admin", "Add Delivery Partner", "View All Customers", "View All Delivery Partners", "View All Admins", "Toggle User Active/Inactive"},
-            new Runnable[]{this::addNewAdmin, this::addDeliveryPartner, this::viewAllCustomers, this::viewAllDrivers, this::viewAllAdmins, this::toggleUserStatus});
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== USER MANAGEMENT ===");
+            System.out.println("1. Add New Admin");
+            System.out.println("2. Add Delivery Partner");
+            System.out.println("3. View All Customers");
+            System.out.println("4. View All Delivery Partners");
+            System.out.println("5. View All Admins");
+            System.out.println("6. Toggle User Active/Inactive");
+            System.out.println("7. Back");
+            System.out.println("---------------------------------------------");
+
+            int choice = InputUtil.readInt("Enter choice: ", 1, 7);
+            try {
+                switch (choice) {
+                    case 1:
+                        addNewAdmin();
+                        break;
+                    case 2:
+                        addDeliveryPartner();
+                        break;
+                    case 3:
+                        viewAllCustomers();
+                        break;
+                    case 4:
+                        viewAllDrivers();
+                        break;
+                    case 5:
+                        viewAllAdmins();
+                        break;
+                    case 6:
+                        toggleUserStatus();
+                        break;
+                    case 7:
+                        back = true;
+                        break;
+                }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 
     private void showOrdersManagement() {
-        InputUtil.runSubMenu("ORDERS MANAGEMENT",
-            new String[]{"View All Orders"},
-            new Runnable[]{this::viewAllOrders});
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== ORDERS MANAGEMENT ===");
+            System.out.println("1. View All Orders");
+            System.out.println("2. Back");
+            System.out.println("---------------------------------------------");
+
+            int choice = InputUtil.readInt("Enter choice: ", 1, 2);
+            try {
+                switch (choice) {
+                    case 1:
+                        viewAllOrders();
+                        break;
+                    case 2:
+                        back = true;
+                        break;
+                }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 
     private void addMenuItem() {
         System.out.println("\n=== ADD MENU ITEM ===");
         String name = InputUtil.readString("Item name: ");
         double price = InputUtil.readDouble("Price: ", 1, AppConfig.MAX_PRICE);
-        CuisineType cuisineType = InputUtil.readEnum("Cuisine", CuisineType.class);
-        FoodCategory category = InputUtil.readEnum("Category", FoodCategory.class);
+        CuisineType cuisineType = InputUtil.readCuisineType("Cuisine");
+        FoodCategory category = InputUtil.readFoodCategory("Category");
 
         MenuItem item = menuService.addItem(name, price, category, cuisineType);
         System.out.println("Menu item added: " + item.getName() + " | ID: " + item.getId());
@@ -112,8 +215,8 @@ public class AdminMenu {
 
         String name = InputUtil.readString("New name: ");
         double price = InputUtil.readDouble("New price: ", 1, AppConfig.MAX_PRICE);
-        CuisineType cuisineType = InputUtil.readEnum("New cuisine", CuisineType.class);
-        FoodCategory category = InputUtil.readEnum("New category", FoodCategory.class);
+        CuisineType cuisineType = InputUtil.readCuisineType("New cuisine");
+        FoodCategory category = InputUtil.readFoodCategory("New category");
 
         MenuItem updated = menuService.updateItem(itemId, name, price, category, cuisineType);
         System.out.println("Updated: " + updated.getName());
@@ -137,7 +240,7 @@ public class AdminMenu {
 
     private void viewDiscountSettings() {
         System.out.println("\n=== DISCOUNT SETTINGS ===");
-        DiscountStrategy strategy = orderFacade.getDiscountStrategy();
+        PercentageDiscount strategy = orderFacade.getDiscountStrategy();
         System.out.println("Current Strategy: " + strategy.getDescription());
         System.out.println("Rule: Orders above the minimum amount get the discount automatically.");
     }
@@ -211,11 +314,15 @@ public class AdminMenu {
 
         if (InputUtil.readYesNo("View order details?")) {
             String orderId = InputUtil.readString("Enter order ID: ");
-            java.util.Optional<Order> orderOpt = orders.stream()
-                    .filter(o -> o.getId().equals(orderId))
-                    .findFirst();
-            if (orderOpt.isPresent()) {
-                orderService.printInvoice(orderOpt.get());
+            Order foundOrder = null;
+            for (Order o : orders) {
+                if (o.getId().equals(orderId)) {
+                    foundOrder = o;
+                    break;
+                }
+            }
+            if (foundOrder != null) {
+                orderService.printInvoice(foundOrder);
             } else {
                 System.out.println("Error: Order not found.");
             }

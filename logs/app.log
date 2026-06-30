@@ -45,3 +45,33 @@
 [2026-06-29 19:54:57] [INFO] Application started successfully.
 [2026-06-29 19:55:12] [INFO] User logged in: admin | Role: ADMIN
 [2026-06-29 19:55:12] [INFO] Application shutting down.
+[2026-06-30 18:03:55] [INFO] Repository initialized for: data/admins.dat | Records: 1
+[2026-06-30 18:03:55] [INFO] Repository initialized for: data/customers.dat | Records: 0
+[2026-06-30 18:03:55] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
+[2026-06-30 18:03:55] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
+[2026-06-30 18:03:55] [INFO] Repository initialized for: data/orders.dat | Records: 0
+[2026-06-30 18:03:55] [INFO] Entity saved to data/delivery_partners.dat
+[2026-06-30 18:03:55] [INFO] New delivery partner registered: driver1 | ID: 50124268
+[2026-06-30 18:03:55] [INFO] Entity saved to data/customers.dat
+[2026-06-30 18:03:55] [INFO] New customer registered: customer1 | ID: 9E8F892D
+[2026-06-30 18:03:55] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 18:03:55] [INFO] Menu item added: Margherita Pizza | Rs. 250.0 | ID: 38A0226C
+[2026-06-30 18:03:55] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 18:03:55] [INFO] Menu item added: Cheese Burger | Rs. 150.0 | ID: 65CD7D60
+[2026-06-30 18:03:55] [INFO] Item added to cart: Margherita Pizza x2
+[2026-06-30 18:03:55] [INFO] Item added to cart: Cheese Burger x1
+[2026-06-30 18:03:55] [INFO] Entity updated in data/delivery_partners.dat | ID: 50124268
+[2026-06-30 18:03:55] [INFO] Cash payment processed for Rs. 585.00
+[2026-06-30 18:03:55] [INFO] Delivery partner assigned: John Driver | ID: 50124268
+[2026-06-30 18:03:55] [INFO] Entity saved to data/orders.dat
+[2026-06-30 18:03:55] [INFO] Order created: 3254FF6E | Customer: Alice Smith | Total: Rs. 585.0
+[2026-06-30 18:03:55] [INFO] Cart cleared for customer: 9E8F892D
+[2026-06-30 18:03:55] [INFO] Order placed successfully via Facade | Order ID: 3254FF6E
+[2026-06-30 18:03:55] [INFO] Entity updated in data/orders.dat | ID: 3254FF6E
+[2026-06-30 18:03:55] [INFO] Order 3254FF6E status updated to: PREPARING
+[2026-06-30 18:03:55] [INFO] Entity updated in data/orders.dat | ID: 3254FF6E
+[2026-06-30 18:03:55] [INFO] Order 3254FF6E status updated to: OUT_FOR_DELIVERY
+[2026-06-30 18:03:55] [INFO] Entity updated in data/orders.dat | ID: 3254FF6E
+[2026-06-30 18:03:55] [INFO] Entity updated in data/delivery_partners.dat | ID: 50124268
+[2026-06-30 18:03:55] [INFO] Driver John Driver marked available after delivery
+[2026-06-30 18:03:55] [INFO] Order 3254FF6E status updated to: DELIVERED

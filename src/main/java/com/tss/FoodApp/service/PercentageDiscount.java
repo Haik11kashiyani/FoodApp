@@ -1,6 +1,6 @@
 package com.tss.FoodApp.service;
 
-public class PercentageDiscount implements DiscountStrategy {
+public class PercentageDiscount {
     private final double percentage;
     private final double threshold;
 
@@ -9,12 +9,10 @@ public class PercentageDiscount implements DiscountStrategy {
         this.threshold = threshold;
     }
 
-    @Override
     public double calculateDiscount(double totalAmount) {
         return (totalAmount >= threshold) ? totalAmount * (percentage / 100.0) : 0;
     }
 
-    @Override
     public String getDescription() {
         return String.format("%.0f%% off on orders above Rs. %.0f", percentage, threshold);
     }

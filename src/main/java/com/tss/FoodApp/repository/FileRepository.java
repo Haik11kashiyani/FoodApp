@@ -6,7 +6,7 @@ import com.tss.FoodApp.util.AppLogger;
 import com.tss.FoodApp.exception.AppException;
 import com.tss.FoodApp.exception.EntityNotFoundException;
 
-public class FileRepository<T> implements Repository<T> {
+public class FileRepository<T extends Identifiable> implements Repository<T> {
 
     private final String filePath;
     private final Map<String, T> cache;
@@ -59,30 +59,25 @@ public class FileRepository<T> implements Repository<T> {
     }
 
     private String getEntityId(T entity) {
-        try {
-            java.lang.reflect.Method method = entity.getClass().getMethod("getId");
-            return (String) method.invoke(entity);
-        } catch (Exception e) {
-            throw new AppException("Entity does not have getId() method: " + entity.getClass().getName(), e);
-        }
+        return entity.getId();
     }
 
     @SuppressWarnings("unchecked")
     private Map<String, T> loadFromFile() {
         File file = new File(filePath);
         if (!file.exists() || file.length() == 0) {
-            return new java.util.concurrent.ConcurrentHashMap<>();
+            return new HashMap<>();
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             List<T> list = (List<T>) ois.readObject();
-            Map<String, T> map = new java.util.concurrent.ConcurrentHashMap<>();
+            Map<String, T> map = new HashMap<>();
             for (T entity : list) {
                 map.put(getEntityId(entity), entity);
             }
             return map;
         } catch (Exception e) {
             AppLogger.error("Failed to load data from " + filePath, e);
-            return new java.util.concurrent.ConcurrentHashMap<>();
+            return new HashMap<>();
         }
     }
 

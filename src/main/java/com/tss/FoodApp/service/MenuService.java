@@ -1,9 +1,10 @@
 package com.tss.FoodApp.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.Repository;
 import com.tss.FoodApp.exception.EntityNotFoundException;
@@ -34,8 +35,11 @@ public class MenuService {
     }
 
     public MenuItem updateItem(String id, String newName, double newPrice, FoodCategory newCategory, CuisineType newCuisineType) {
-        MenuItem item = menuRepo.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("MenuItem", id));
+        Optional<MenuItem> opt = menuRepo.findById(id);
+        if (!opt.isPresent()) {
+            throw new EntityNotFoundException("MenuItem", id);
+        }
+        MenuItem item = opt.get();
 
         item.setName(newName);
         item.setPrice(newPrice);
@@ -60,53 +64,83 @@ public class MenuService {
     }
 
     public List<MenuItem> getAvailableItems() {
-        return menuRepo.findAll().stream()
-                .filter(MenuItem::isAvailable)
-                .collect(Collectors.toList());
+        List<MenuItem> available = new ArrayList<>();
+        for (MenuItem item : menuRepo.findAll()) {
+            if (item.isAvailable()) {
+                available.add(item);
+            }
+        }
+        return available;
     }
 
     public List<MenuItem> searchByName(String keyword) {
-        return menuRepo.findAll().stream()
-                .filter(item -> item.getName().toLowerCase().contains(keyword.toLowerCase()))
-                .filter(MenuItem::isAvailable)
-                .collect(Collectors.toList());
+        List<MenuItem> results = new ArrayList<>();
+        for (MenuItem item : menuRepo.findAll()) {
+            if (item.isAvailable() && item.getName().toLowerCase().contains(keyword.toLowerCase())) {
+                results.add(item);
+            }
+        }
+        return results;
     }
 
     public List<MenuItem> filterByCategory(FoodCategory category) {
-        return menuRepo.findAll().stream()
-                .filter(item -> item.getCategory() == category)
-                .collect(Collectors.toList());
+        List<MenuItem> results = new ArrayList<>();
+        for (MenuItem item : menuRepo.findAll()) {
+            if (item.getCategory() == category) {
+                results.add(item);
+            }
+        }
+        return results;
     }
 
     public List<MenuItem> filterByCuisineAndCategory(CuisineType cuisine, FoodCategory category) {
-        return menuRepo.findAll().stream()
-                .filter(item -> item.getCuisineType() == cuisine && item.getCategory() == category)
-                .collect(Collectors.toList());
+        List<MenuItem> results = new ArrayList<>();
+        for (MenuItem item : menuRepo.findAll()) {
+            if (item.getCuisineType() == cuisine && item.getCategory() == category) {
+                results.add(item);
+            }
+        }
+        return results;
     }
 
     public List<MenuItem> sortByPriceAsc() {
-        return menuRepo.findAll().stream()
-                .filter(MenuItem::isAvailable)
-                .sorted(Comparator.comparingDouble(MenuItem::getPrice))
-                .collect(Collectors.toList());
+        List<MenuItem> available = getAvailableItems();
+        available.sort(new Comparator<MenuItem>() {
+            @Override
+            public int compare(MenuItem m1, MenuItem m2) {
+                return Double.compare(m1.getPrice(), m2.getPrice());
+            }
+        });
+        return available;
     }
 
     public List<MenuItem> sortByPriceDesc() {
-        return menuRepo.findAll().stream()
-                .filter(MenuItem::isAvailable)
-                .sorted(Comparator.comparingDouble(MenuItem::getPrice).reversed())
-                .collect(Collectors.toList());
+        List<MenuItem> available = getAvailableItems();
+        available.sort(new Comparator<MenuItem>() {
+            @Override
+            public int compare(MenuItem m1, MenuItem m2) {
+                return Double.compare(m2.getPrice(), m1.getPrice());
+            }
+        });
+        return available;
     }
 
     public List<MenuItem> sortByName() {
-        return menuRepo.findAll().stream()
-                .filter(MenuItem::isAvailable)
-                .sorted(Comparator.comparing(MenuItem::getName))
-                .collect(Collectors.toList());
+        List<MenuItem> available = getAvailableItems();
+        available.sort(new Comparator<MenuItem>() {
+            @Override
+            public int compare(MenuItem m1, MenuItem m2) {
+                return m1.getName().compareTo(m2.getName());
+            }
+        });
+        return available;
     }
 
     public MenuItem getItemById(String itemId) {
-        return menuRepo.findById(itemId)
-                .orElseThrow(() -> new EntityNotFoundException("MenuItem", itemId));
+        Optional<MenuItem> opt = menuRepo.findById(itemId);
+        if (!opt.isPresent()) {
+            throw new EntityNotFoundException("MenuItem", itemId);
+        }
+        return opt.get();
     }
 }

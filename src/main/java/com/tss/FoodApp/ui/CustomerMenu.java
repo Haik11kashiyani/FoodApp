@@ -15,7 +15,6 @@ public class CustomerMenu {
     private final CartService cartService;
     private final OrderService orderService;
     private final OrderProcessingFacade orderFacade;
-    private final List<MenuCommand> commands = new ArrayList<>();
 
     public CustomerMenu(User user, ServiceRegistry registry) {
         this.customer = (Customer) user;
@@ -23,20 +22,6 @@ public class CustomerMenu {
         this.cartService = registry.getCartService();
         this.orderService = registry.getOrderService();
         this.orderFacade = registry.getOrderFacade();
-
-        // Register pluggable commands (OCP)
-        commands.add(new AbstractMenuCommand("Menu") {
-            @Override public void execute() { showMenuBrowsing(); }
-        });
-        commands.add(new AbstractMenuCommand("Cart") {
-            @Override public void execute() { showCartOperations(); }
-        });
-        commands.add(new AbstractMenuCommand("Orders") {
-            @Override public void execute() { showOrders(); }
-        });
-        commands.add(new AbstractMenuCommand("Account") {
-            @Override public void execute() { showAccount(); }
-        });
     }
 
     public void show() {
@@ -45,56 +30,171 @@ public class CustomerMenu {
             System.out.println("\n=== CUSTOMER DASHBOARD ===");
             System.out.println("  Welcome, " + customer.getName() + "!");
             System.out.println("---------------------------------------------");
-
-            for (int i = 0; i < commands.size(); i++) {
-                System.out.println((i + 1) + ". " + commands.get(i).getLabel());
-            }
-            System.out.println("─────────────");
-            System.out.println((commands.size() + 1) + ". Logout");
+            System.out.println("1. Menu");
+            System.out.println("2. Cart");
+            System.out.println("3. Orders");
+            System.out.println("4. Account");
+            System.out.println("5. Logout");
             System.out.println("---------------------------------------------");
 
-            int choice = InputUtil.readInt("Enter choice: ", 1, commands.size() + 1);
+            int choice = InputUtil.readInt("Enter choice: ", 1, 5);
 
-            if (choice == commands.size() + 1) {
-                System.out.println("Logged out successfully.");
-                running = false;
-            } else {
-                try {
-                    commands.get(choice - 1).execute();
-                } catch (AppException e) {
-                    System.out.println("Error: " + e.getMessage());
+            try {
+                switch (choice) {
+                    case 1:
+                        showMenuBrowsing();
+                        break;
+                    case 2:
+                        showCartOperations();
+                        break;
+                    case 3:
+                        showOrders();
+                        break;
+                    case 4:
+                        showAccount();
+                        break;
+                    case 5:
+                        System.out.println("Logged out successfully.");
+                        running = false;
+                        break;
                 }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
             }
         }
     }
 
     private void showMenuBrowsing() {
-        InputUtil.runSubMenu("MENU",
-            new String[]{"View Menu", "Search Menu by Name", "Filter Menu by Category", "Sort Menu by Price"},
-            new Runnable[]{this::viewMenu, this::searchMenu, this::filterByCategory, this::sortByPrice});
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== MENU ===");
+            System.out.println("1. View Menu");
+            System.out.println("2. Search Menu by Name");
+            System.out.println("3. Filter Menu by Category");
+            System.out.println("4. Sort Menu by Price");
+            System.out.println("5. Back");
+            System.out.println("---------------------------------------------");
+
+            int choice = InputUtil.readInt("Enter choice: ", 1, 5);
+            try {
+                switch (choice) {
+                    case 1:
+                        viewMenu();
+                        break;
+                    case 2:
+                        searchMenu();
+                        break;
+                    case 3:
+                        filterByCategory();
+                        break;
+                    case 4:
+                        sortByPrice();
+                        break;
+                    case 5:
+                        back = true;
+                        break;
+                }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 
     private void showCartOperations() {
-        InputUtil.runSubMenu("CART",
-            new String[]{"Add to Cart", "View Cart", "Remove from Cart", "Update Item Quantity", "Clear Cart"},
-            new Runnable[]{this::addToCart, this::viewCart, this::removeFromCart, this::updateCartQuantity, this::clearCart});
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== CART ===");
+            System.out.println("1. Add to Cart");
+            System.out.println("2. View Cart");
+            System.out.println("3. Remove from Cart");
+            System.out.println("4. Update Item Quantity");
+            System.out.println("5. Clear Cart");
+            System.out.println("6. Back");
+            System.out.println("---------------------------------------------");
+
+            int choice = InputUtil.readInt("Enter choice: ", 1, 6);
+            try {
+                switch (choice) {
+                    case 1:
+                        addToCart();
+                        break;
+                    case 2:
+                        viewCart();
+                        break;
+                    case 3:
+                        removeFromCart();
+                        break;
+                    case 4:
+                        updateCartQuantity();
+                        break;
+                    case 5:
+                        clearCart();
+                        break;
+                    case 6:
+                        back = true;
+                        break;
+                }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 
     private void showOrders() {
-        InputUtil.runSubMenu("ORDERS",
-            new String[]{"Place Order", "View Order History"},
-            new Runnable[]{this::placeOrder, this::viewOrderHistory});
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== ORDERS ===");
+            System.out.println("1. Place Order");
+            System.out.println("2. View Order History");
+            System.out.println("3. Back");
+            System.out.println("---------------------------------------------");
+
+            int choice = InputUtil.readInt("Enter choice: ", 1, 3);
+            try {
+                switch (choice) {
+                    case 1:
+                        placeOrder();
+                        break;
+                    case 2:
+                        viewOrderHistory();
+                        break;
+                    case 3:
+                        back = true;
+                        break;
+                }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 
     private void showAccount() {
-        InputUtil.runSubMenu("ACCOUNT",
-            new String[]{"Update Profile"},
-            new Runnable[]{this::updateProfile});
+        boolean back = false;
+        while (!back) {
+            System.out.println("\n=== ACCOUNT ===");
+            System.out.println("1. Update Profile");
+            System.out.println("2. Back");
+            System.out.println("---------------------------------------------");
+
+            int choice = InputUtil.readInt("Enter choice: ", 1, 2);
+            try {
+                switch (choice) {
+                    case 1:
+                        updateProfile();
+                        break;
+                    case 2:
+                        back = true;
+                        break;
+                }
+            } catch (AppException e) {
+                System.out.println("Error: " + e.getMessage());
+            }
+        }
     }
 
     private void viewMenu() {
-        CuisineType cuisine = InputUtil.readEnum("Select Cuisine", CuisineType.class);
-        FoodCategory category = InputUtil.readEnum("Select Category", FoodCategory.class);
+        CuisineType cuisine = InputUtil.readCuisineType("Select Cuisine");
+        FoodCategory category = InputUtil.readFoodCategory("Select Category");
         List<MenuItem> items = menuService.filterByCuisineAndCategory(cuisine, category);
         
         printItemsList(items, cuisine.name() + " " + category.name() + " MENU");
@@ -107,7 +207,7 @@ public class CustomerMenu {
     }
 
     private void filterByCategory() {
-        FoodCategory category = InputUtil.readEnum("Filter by category", FoodCategory.class);
+        FoodCategory category = InputUtil.readFoodCategory("Filter by category");
         List<MenuItem> results = menuService.filterByCategory(category);
         printItemsList(results, category.name() + " ITEMS");
     }
@@ -122,10 +222,13 @@ public class CustomerMenu {
     }
 
     private void addToCart() {
-        viewMenu();
-        List<MenuItem> available = menuService.getAvailableItems();
-        if (available.isEmpty()) {
-            System.out.println("Warning: No menu items available.");
+        CuisineType cuisine = InputUtil.readCuisineType("Select Cuisine of Item");
+        FoodCategory category = InputUtil.readFoodCategory("Select Category of Item");
+        List<MenuItem> items = menuService.filterByCuisineAndCategory(cuisine, category);
+        printItemsList(items, cuisine.name() + " " + category.name() + " MENU");
+
+        if (items.isEmpty()) {
+            System.out.println("Warning: No menu items available in this category.");
             return;
         }
 
@@ -190,12 +293,12 @@ public class CustomerMenu {
         double cartTotal = cartService.getCartTotal(customer.getId());
         System.out.printf("%nCart Total: Rs. %.2f%n", cartTotal);
 
-        DiscountStrategy strategy = orderFacade.getDiscountStrategy();
+        PercentageDiscount strategy = orderFacade.getDiscountStrategy();
         if (strategy.calculateDiscount(cartTotal) > 0) {
             System.out.println("You're eligible! " + strategy.getDescription());
         }
 
-        PaymentMode mode = InputUtil.readEnum("\nSelect payment method", PaymentMode.class);
+        PaymentMode mode = InputUtil.readPaymentMode("\nSelect payment method");
 
         if (InputUtil.readYesNo("Confirm order?")) {
             Order order = orderFacade.placeOrder(customer.getId(), customer.getName(), mode);
@@ -213,11 +316,15 @@ public class CustomerMenu {
 
         if (InputUtil.readYesNo("View order details?")) {
             String orderId = InputUtil.readString("Enter order ID: ");
-            java.util.Optional<Order> orderOpt = orders.stream()
-                    .filter(o -> o.getId().equals(orderId))
-                    .findFirst();
-            if (orderOpt.isPresent()) {
-                orderService.printInvoice(orderOpt.get());
+            Order foundOrder = null;
+            for (Order o : orders) {
+                if (o.getId().equals(orderId)) {
+                    foundOrder = o;
+                    break;
+                }
+            }
+            if (foundOrder != null) {
+                orderService.printInvoice(foundOrder);
             } else {
                 System.out.println("Error: Order not found.");
             }
