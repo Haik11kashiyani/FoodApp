@@ -18,7 +18,7 @@ public class InputUtil {
             if (!input.isEmpty()) {
                 return input;
             }
-            printError("Input cannot be empty. Please try again.");
+            System.out.println("Error: Input cannot be empty. Please try again.");
         }
     }
 
@@ -33,7 +33,7 @@ public class InputUtil {
             try {
                 return Integer.parseInt(input);
             } catch (NumberFormatException e) {
-                printError("Please enter a valid number.");
+                System.out.println("Error: Please enter a valid number.");
             }
         }
     }
@@ -44,7 +44,7 @@ public class InputUtil {
             if (value >= min && value <= max) {
                 return value;
             }
-            printError("Please enter a number between " + min + " and " + max + ".");
+            System.out.println("Error: Please enter a number between " + min + " and " + max + ".");
         }
     }
 
@@ -55,7 +55,7 @@ public class InputUtil {
             try {
                 return Double.parseDouble(input);
             } catch (NumberFormatException e) {
-                printError("Please enter a valid number.");
+                System.out.println("Error: Please enter a valid number.");
             }
         }
     }
@@ -66,7 +66,7 @@ public class InputUtil {
             if (value >= min && value <= max) {
                 return value;
             }
-            printError("Please enter a number between " + min + " and " + max + ".");
+            System.out.println("Error: Please enter a number between " + min + " and " + max + ".");
         }
     }
 
@@ -75,7 +75,7 @@ public class InputUtil {
             String input = readString(prompt + " (y/n): ").toLowerCase();
             if (input.equals("y") || input.equals("yes")) return true;
             if (input.equals("n") || input.equals("no")) return false;
-            printError("Please enter 'y' or 'n'.");
+            System.out.println("Error: Please enter 'y' or 'n'.");
         }
     }
 
@@ -96,54 +96,6 @@ public class InputUtil {
             sb.append(str);
         }
         return sb.toString();
-    }
-
-    // ========================= OUTPUT METHODS =========================
-
-    public static void printHeader(String title) {
-        int width = 45;
-        String border = repeat("═", width);
-        System.out.println();
-        System.out.println("╔" + border + "╗");
-        int padding = (width - title.length()) / 2;
-        String centeredTitle = repeat(" ", Math.max(0, padding)) + title
-                + repeat(" ", Math.max(0, width - padding - title.length()));
-        System.out.println("║" + centeredTitle + "║");
-        System.out.println("╚" + border + "╝");
-    }
-
-    public static void printDivider() {
-        System.out.println(repeat("-", 47));
-    }
-
-    public static void printSuccess(String message) {
-        System.out.println("  " + message);
-    }
-
-    public static void printError(String message) {
-        System.out.println("  " + message);
-    }
-
-    public static void printWarning(String message) {
-        System.out.println("  " + message);
-    }
-
-    public static void printMenuOption(int number, String text) {
-        System.out.printf("  %-3d. %s%n", number, text);
-    }
-
-    public static <T> void printNumberedList(java.util.List<T> items, String title) {
-        if (items.isEmpty()) {
-            printWarning("No " + title.toLowerCase() + " found.");
-            return;
-        }
-        printDivider();
-        System.out.println("  " + title + " (" + items.size() + " items)");
-        printDivider();
-        for (int i = 0; i < items.size(); i++) {
-            System.out.println("  " + (i + 1) + ". " + items.get(i).toString());
-        }
-        printDivider();
     }
 
     // ========================= VALIDATION METHODS =========================
@@ -177,11 +129,11 @@ public class InputUtil {
 
     public static boolean validateUsername(String username) {
         if (username.length() < AppConfig.MIN_USERNAME_LENGTH || username.length() > AppConfig.MAX_USERNAME_LENGTH) {
-            printError("Username must be " + AppConfig.MIN_USERNAME_LENGTH + "-" + AppConfig.MAX_USERNAME_LENGTH + " characters.");
+            System.out.println("Error: Username must be " + AppConfig.MIN_USERNAME_LENGTH + "-" + AppConfig.MAX_USERNAME_LENGTH + " characters.");
             return false;
         }
         if (!username.matches("^[a-zA-Z][a-zA-Z0-9_]*$")) {
-            printError("Username must start with a letter. Only letters, digits, and underscore allowed.");
+            System.out.println("Error: Username must start with a letter. Only letters, digits, and underscore allowed.");
             return false;
         }
         return true;
@@ -189,7 +141,7 @@ public class InputUtil {
 
     public static boolean validatePassword(String password) {
         if (password.length() < AppConfig.MIN_PASSWORD_LENGTH) {
-            printError("Password must be at least " + AppConfig.MIN_PASSWORD_LENGTH + " characters.");
+            System.out.println("Error: Password must be at least " + AppConfig.MIN_PASSWORD_LENGTH + " characters.");
             return false;
         }
         return true;
@@ -197,7 +149,7 @@ public class InputUtil {
 
     public static boolean validatePhone(String phone) {
         if (!phone.matches("^[6-9]\\d{9}$")) {
-            printError("Phone must be 10 digits starting with 6-9.");
+            System.out.println("Error: Phone must be 10 digits starting with 6-9.");
             return false;
         }
         return true;
@@ -211,21 +163,19 @@ public class InputUtil {
     public static void runSubMenu(String title, String[] options, Runnable[] actions) {
         boolean back = false;
         while (!back) {
-            printHeader(title);
+            System.out.println("\n=== " + title + " ===");
             for (int i = 0; i < options.length; i++) {
-                printMenuOption(i + 1, options[i]);
+                System.out.println((i + 1) + ". " + options[i]);
             }
-            System.out.println("  ─────────────");
-            printMenuOption(options.length + 1, "Back");
-            printDivider();
-            int choice = readInt("  Enter choice: ", 1, options.length + 1);
+            System.out.println((options.length + 1) + ". Back");
+            int choice = readInt("Enter choice: ", 1, options.length + 1);
             if (choice == options.length + 1) {
                 back = true;
             } else {
                 try {
                     actions[choice - 1].run();
                 } catch (AppException e) {
-                    printError(e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                 }
             }
         }

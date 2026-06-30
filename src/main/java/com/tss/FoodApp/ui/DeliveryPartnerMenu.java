@@ -38,28 +38,28 @@ public class DeliveryPartnerMenu {
     public void show() {
         boolean running = true;
         while (running) {
-            InputUtil.printHeader("DELIVERY PARTNER DASHBOARD");
+            System.out.println("\n=== DELIVERY PARTNER DASHBOARD ===");
             System.out.println("  Welcome, " + driver.getName() + "!");
             System.out.println("  Status: " + (driver.isAvailable() ? "Available" : "Unavailable"));
-            InputUtil.printDivider();
+            System.out.println("---------------------------------------------");
 
             for (int i = 0; i < commands.size(); i++) {
-                InputUtil.printMenuOption(i + 1, commands.get(i).getLabel());
+                System.out.println((i + 1) + ". " + commands.get(i).getLabel());
             }
-            System.out.println("  ─────────────");
-            InputUtil.printMenuOption(commands.size() + 1, "Logout");
-            InputUtil.printDivider();
+            System.out.println("─────────────");
+            System.out.println((commands.size() + 1) + ". Logout");
+            System.out.println("---------------------------------------------");
 
-            int choice = InputUtil.readInt("  Enter choice: ", 1, commands.size() + 1);
+            int choice = InputUtil.readInt("Enter choice: ", 1, commands.size() + 1);
 
             if (choice == commands.size() + 1) {
-                InputUtil.printSuccess("Logged out successfully.");
+                System.out.println("Logged out successfully.");
                 running = false;
             } else {
                 try {
                     commands.get(choice - 1).execute();
                 } catch (AppException e) {
-                    InputUtil.printError(e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                 }
             }
         }
@@ -68,26 +68,26 @@ public class DeliveryPartnerMenu {
     private void viewAssignedOrders() {
         List<Order> activeOrders = orderService.getActiveOrdersForDriver(driver.getId());
         if (activeOrders.isEmpty()) {
-            InputUtil.printWarning("No active orders assigned to you.");
+            System.out.println("Warning: No active orders assigned to you.");
             return;
         }
-        InputUtil.printNumberedList(activeOrders, "YOUR ACTIVE ORDERS");
+        printItemsList(activeOrders, "YOUR ACTIVE ORDERS");
     }
 
     private void updateOrderStatus() {
         List<Order> activeOrders = orderService.getActiveOrdersForDriver(driver.getId());
         if (activeOrders.isEmpty()) {
-            InputUtil.printWarning("No active orders to update.");
+            System.out.println("Warning: No active orders to update.");
             return;
         }
-        InputUtil.printNumberedList(activeOrders, "ACTIVE ORDERS");
+        printItemsList(activeOrders, "ACTIVE ORDERS");
 
-        String orderId = InputUtil.readString("  Enter order ID to update: ");
-        System.out.println("  Select new status:");
-        System.out.println("  1. PREPARING");
-        System.out.println("  2. OUT_FOR_DELIVERY");
-        System.out.println("  3. DELIVERED");
-        int statusChoice = InputUtil.readInt("  Status: ", 1, 3);
+        String orderId = InputUtil.readString("Enter order ID to update: ");
+        System.out.println("Select new status:");
+        System.out.println("1. PREPARING");
+        System.out.println("2. OUT_FOR_DELIVERY");
+        System.out.println("3. DELIVERED");
+        int statusChoice = InputUtil.readInt("Status: ", 1, 3);
 
         OrderStatus newStatus;
         switch (statusChoice) {
@@ -98,26 +98,40 @@ public class DeliveryPartnerMenu {
         }
 
         orderService.updateOrderStatus(orderId, newStatus);
-        InputUtil.printSuccess("Order " + orderId + " updated to: " + newStatus);
+        System.out.println("Order " + orderId + " updated to: " + newStatus);
 
         if (newStatus == OrderStatus.DELIVERED) {
-            InputUtil.printSuccess("Delivery completed! You are now Available for new orders.");
+            System.out.println("Delivery completed! You are now Available for new orders.");
         }
     }
 
     private void viewDeliveryHistory() {
         List<Order> history = orderService.getOrdersByDriver(driver.getId());
         if (history.isEmpty()) {
-            InputUtil.printWarning("No delivery history.");
+            System.out.println("Warning: No delivery history.");
             return;
         }
-        InputUtil.printNumberedList(history, "DELIVERY HISTORY");
+        printItemsList(history, "DELIVERY HISTORY");
     }
 
     private void toggleAvailability() {
         driver.setAvailable(!driver.isAvailable());
         userService.updateDriver(driver);
         String status = driver.isAvailable() ? "Available" : "Unavailable";
-        InputUtil.printSuccess("Your status is now: " + status);
+        System.out.println("Your status is now: " + status);
+    }
+
+    private <T> void printItemsList(List<T> items, String title) {
+        if (items.isEmpty()) {
+            System.out.println("Warning: No " + title.toLowerCase() + " found.");
+            return;
+        }
+        System.out.println("---------------------------------------------");
+        System.out.println(title + " (" + items.size() + " items)");
+        System.out.println("---------------------------------------------");
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println((i + 1) + ". " + items.get(i).toString());
+        }
+        System.out.println("---------------------------------------------");
     }
 }

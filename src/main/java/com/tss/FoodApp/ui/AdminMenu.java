@@ -44,27 +44,27 @@ public class AdminMenu {
     public void show() {
         boolean running = true;
         while (running) {
-            InputUtil.printHeader("ADMIN DASHBOARD");
+            System.out.println("\n=== ADMIN DASHBOARD ===");
             System.out.println("  Welcome, " + admin.getName() + "!");
-            InputUtil.printDivider();
+            System.out.println("---------------------------------------------");
 
             for (int i = 0; i < commands.size(); i++) {
-                InputUtil.printMenuOption(i + 1, commands.get(i).getLabel());
+                System.out.println((i + 1) + ". " + commands.get(i).getLabel());
             }
-            System.out.println("  ─────────────");
-            InputUtil.printMenuOption(commands.size() + 1, "Logout");
-            InputUtil.printDivider();
+            System.out.println("─────────────");
+            System.out.println((commands.size() + 1) + ". Logout");
+            System.out.println("---------------------------------------------");
 
-            int choice = InputUtil.readInt("  Enter choice: ", 1, commands.size() + 1);
+            int choice = InputUtil.readInt("Enter choice: ", 1, commands.size() + 1);
 
             if (choice == commands.size() + 1) {
-                InputUtil.printSuccess("Logged out successfully.");
+                System.out.println("Logged out successfully.");
                 running = false;
             } else {
                 try {
                     commands.get(choice - 1).execute();
                 } catch (AppException e) {
-                    InputUtil.printError(e.getMessage());
+                    System.out.println("Error: " + e.getMessage());
                 }
             }
         }
@@ -95,130 +95,144 @@ public class AdminMenu {
     }
 
     private void addMenuItem() {
-        InputUtil.printHeader("ADD MENU ITEM");
-        String name = InputUtil.readString("  Item name: ");
-        double price = InputUtil.readDouble("  Price: ", 1, AppConfig.MAX_PRICE);
-        CuisineType cuisineType = InputUtil.readEnum("  Cuisine", CuisineType.class);
-        FoodCategory category = InputUtil.readEnum("  Category", FoodCategory.class);
+        System.out.println("\n=== ADD MENU ITEM ===");
+        String name = InputUtil.readString("Item name: ");
+        double price = InputUtil.readDouble("Price: ", 1, AppConfig.MAX_PRICE);
+        CuisineType cuisineType = InputUtil.readEnum("Cuisine", CuisineType.class);
+        FoodCategory category = InputUtil.readEnum("Category", FoodCategory.class);
 
         MenuItem item = menuService.addItem(name, price, category, cuisineType);
-        InputUtil.printSuccess("Menu item added: " + item.getName() + " | ID: " + item.getId());
+        System.out.println("Menu item added: " + item.getName() + " | ID: " + item.getId());
     }
 
     private void updateMenuItem() {
-        InputUtil.printHeader("UPDATE MENU ITEM");
+        System.out.println("\n=== UPDATE MENU ITEM ===");
         viewAllMenuItems();
-        String itemId = InputUtil.readString("  Enter item ID to update: ");
+        String itemId = InputUtil.readString("Enter item ID to update: ");
 
-        String name = InputUtil.readString("  New name: ");
-        double price = InputUtil.readDouble("  New price: ", 1, AppConfig.MAX_PRICE);
-        CuisineType cuisineType = InputUtil.readEnum("  New cuisine", CuisineType.class);
-        FoodCategory category = InputUtil.readEnum("  New category", FoodCategory.class);
+        String name = InputUtil.readString("New name: ");
+        double price = InputUtil.readDouble("New price: ", 1, AppConfig.MAX_PRICE);
+        CuisineType cuisineType = InputUtil.readEnum("New cuisine", CuisineType.class);
+        FoodCategory category = InputUtil.readEnum("New category", FoodCategory.class);
 
         MenuItem updated = menuService.updateItem(itemId, name, price, category, cuisineType);
-        InputUtil.printSuccess("Updated: " + updated.getName());
+        System.out.println("Updated: " + updated.getName());
     }
 
     private void deleteMenuItem() {
-        InputUtil.printHeader("DELETE MENU ITEM");
+        System.out.println("\n=== DELETE MENU ITEM ===");
         viewAllMenuItems();
-        String itemId = InputUtil.readString("  Enter item ID to delete: ");
+        String itemId = InputUtil.readString("Enter item ID to delete: ");
 
-        if (InputUtil.readYesNo("  Are you sure?")) {
+        if (InputUtil.readYesNo("Are you sure?")) {
             menuService.deleteItem(itemId);
-            InputUtil.printSuccess("Menu item deleted.");
+            System.out.println("Menu item deleted.");
         }
     }
 
     private void viewAllMenuItems() {
         List<MenuItem> items = menuService.getAllItems();
-        InputUtil.printNumberedList(items, "MENU ITEMS");
+        printItemsList(items, "MENU ITEMS");
     }
 
     private void viewDiscountSettings() {
-        InputUtil.printHeader("DISCOUNT SETTINGS");
+        System.out.println("\n=== DISCOUNT SETTINGS ===");
         DiscountStrategy strategy = orderFacade.getDiscountStrategy();
-        System.out.println("  Current Strategy: " + strategy.getDescription());
-        System.out.println("  Rule: Orders above the minimum amount get the discount automatically.");
+        System.out.println("Current Strategy: " + strategy.getDescription());
+        System.out.println("Rule: Orders above the minimum amount get the discount automatically.");
     }
 
     private void updateDiscountSettings() {
         viewDiscountSettings();
-        double percentage = InputUtil.readDouble("  New discount percentage (1-50): ", 1, 50);
-        double threshold = InputUtil.readDouble("  New minimum order amount: ", 0, 100000);
+        double percentage = InputUtil.readDouble("New discount percentage (1-50): ", 1, 50);
+        double threshold = InputUtil.readDouble("New minimum order amount: ", 0, 100000);
         orderFacade.setDiscountStrategy(new PercentageDiscount(percentage, threshold));
-        InputUtil.printSuccess("Discount settings updated!");
+        System.out.println("Discount settings updated!");
     }
 
     private void addNewAdmin() {
-        InputUtil.printHeader("ADD NEW ADMIN");
-        String username = InputUtil.readValidUsername("  Username: ");
+        System.out.println("\n=== ADD NEW ADMIN ===");
+        String username = InputUtil.readValidUsername("Username: ");
         if (username == null) return;
-        String password = InputUtil.readValidPassword("  Password: ");
+        String password = InputUtil.readValidPassword("Password: ");
         if (password == null) return;
-        String name = InputUtil.readString("  Full name: ");
+        String name = InputUtil.readString("Full name: ");
 
         Admin newAdmin = authService.registerAdmin(username, password, name);
-        InputUtil.printSuccess("Admin created: " + newAdmin.getName() + " | ID: " + newAdmin.getId());
+        System.out.println("Admin created: " + newAdmin.getName() + " | ID: " + newAdmin.getId());
     }
 
     private void addDeliveryPartner() {
-        InputUtil.printHeader("ADD DELIVERY PARTNER");
-        String username = InputUtil.readValidUsername("  Username: ");
+        System.out.println("\n=== ADD DELIVERY PARTNER ===");
+        String username = InputUtil.readValidUsername("Username: ");
         if (username == null) return;
-        String password = InputUtil.readValidPassword("  Password: ");
+        String password = InputUtil.readValidPassword("Password: ");
         if (password == null) return;
-        String name = InputUtil.readString("  Full name: ");
-        String phone = InputUtil.readValidPhone("  Phone: ");
+        String name = InputUtil.readString("Full name: ");
+        String phone = InputUtil.readValidPhone("Phone: ");
         if (phone == null) return;
-        String vehicleType = InputUtil.readString("  Vehicle type (Bike/Bicycle/Car): ");
+        String vehicleType = InputUtil.readString("Vehicle type (Bike/Bicycle/Car): ");
 
         DeliveryPartner driver = authService.registerDriver(username, password, name, phone, vehicleType);
-        InputUtil.printSuccess("Delivery partner created: " + driver.getName() + " | ID: " + driver.getId());
+        System.out.println("Delivery partner created: " + driver.getName() + " | ID: " + driver.getId());
     }
 
     private void viewAllCustomers() {
         List<Customer> customers = userService.getAllCustomers();
-        InputUtil.printNumberedList(customers, "CUSTOMERS");
+        printItemsList(customers, "CUSTOMERS");
     }
 
     private void viewAllDrivers() {
         List<DeliveryPartner> drivers = userService.getAllDrivers();
-        InputUtil.printNumberedList(drivers, "DELIVERY PARTNERS");
+        printItemsList(drivers, "DELIVERY PARTNERS");
     }
 
     private void viewAllAdmins() {
         List<Admin> admins = userService.getAllAdmins();
-        InputUtil.printNumberedList(admins, "ADMINS");
+        printItemsList(admins, "ADMINS");
     }
 
     private void toggleUserStatus() {
-        InputUtil.printHeader("TOGGLE USER STATUS");
+        System.out.println("\n=== TOGGLE USER STATUS ===");
         List<User> allUsers = userService.getAllUsers();
-        InputUtil.printNumberedList(allUsers, "ALL USERS");
-        String userId = InputUtil.readString("  Enter user ID to toggle: ");
+        printItemsList(allUsers, "ALL USERS");
+        String userId = InputUtil.readString("Enter user ID to toggle: ");
         String result = userService.toggleUserStatus(userId);
-        InputUtil.printSuccess(result);
+        System.out.println(result);
     }
 
     private void viewAllOrders() {
         List<Order> orders = orderService.getAllOrders();
         if (orders.isEmpty()) {
-            InputUtil.printWarning("No orders found.");
+            System.out.println("Warning: No orders found.");
             return;
         }
-        InputUtil.printNumberedList(orders, "ALL ORDERS");
+        printItemsList(orders, "ALL ORDERS");
 
-        if (InputUtil.readYesNo("  View order details?")) {
-            String orderId = InputUtil.readString("  Enter order ID: ");
+        if (InputUtil.readYesNo("View order details?")) {
+            String orderId = InputUtil.readString("Enter order ID: ");
             java.util.Optional<Order> orderOpt = orders.stream()
                     .filter(o -> o.getId().equals(orderId))
                     .findFirst();
             if (orderOpt.isPresent()) {
                 orderService.printInvoice(orderOpt.get());
             } else {
-                InputUtil.printError("Order not found.");
+                System.out.println("Error: Order not found.");
             }
         }
+    }
+
+    private <T> void printItemsList(List<T> items, String title) {
+        if (items.isEmpty()) {
+            System.out.println("Warning: No " + title.toLowerCase() + " found.");
+            return;
+        }
+        System.out.println("---------------------------------------------");
+        System.out.println(title + " (" + items.size() + " items)");
+        System.out.println("---------------------------------------------");
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println((i + 1) + ". " + items.get(i).toString());
+        }
+        System.out.println("---------------------------------------------");
     }
 }

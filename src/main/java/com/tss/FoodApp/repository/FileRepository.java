@@ -9,25 +9,16 @@ import com.tss.FoodApp.exception.EntityNotFoundException;
 public class FileRepository<T> implements Repository<T> {
 
     private final String filePath;
-    private Map<String, T> cache;
-    private boolean isLoaded = false;
+    private final Map<String, T> cache;
 
     public FileRepository(String filePath) {
         this.filePath = filePath;
-        AppLogger.info("Repository initialized lazily for: " + filePath);
-    }
-
-    private synchronized void ensureLoaded() {
-        if (!isLoaded) {
-            this.cache = loadFromFile();
-            this.isLoaded = true;
-            AppLogger.info("Data lazily loaded from " + filePath + " | Records: " + cache.size());
-        }
+        this.cache = loadFromFile();
+        AppLogger.info("Repository initialized for: " + filePath + " | Records: " + cache.size());
     }
 
     @Override
-    public synchronized T save(T entity) {
-        ensureLoaded();
+    public T save(T entity) {
         cache.put(getEntityId(entity), entity);
         saveToFile();
         AppLogger.info("Entity saved to " + filePath);
@@ -35,20 +26,17 @@ public class FileRepository<T> implements Repository<T> {
     }
 
     @Override
-    public synchronized Optional<T> findById(String id) {
-        ensureLoaded();
+    public Optional<T> findById(String id) {
         return Optional.ofNullable(cache.get(id));
     }
 
     @Override
-    public synchronized List<T> findAll() {
-        ensureLoaded();
+    public List<T> findAll() {
         return new ArrayList<>(cache.values());
     }
 
     @Override
-    public synchronized T update(T entity) {
-        ensureLoaded();
+    public T update(T entity) {
         String id = getEntityId(entity);
         if (cache.containsKey(id)) {
             cache.put(id, entity);
@@ -60,8 +48,7 @@ public class FileRepository<T> implements Repository<T> {
     }
 
     @Override
-    public synchronized boolean deleteById(String id) {
-        ensureLoaded();
+    public boolean deleteById(String id) {
         T removed = cache.remove(id);
         if (removed != null) {
             saveToFile();
