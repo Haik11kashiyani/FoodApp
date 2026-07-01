@@ -4,11 +4,8 @@ import com.tss.FoodApp.config.AppConfig;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.*;
 import com.tss.FoodApp.service.*;
-import com.tss.FoodApp.util.*;
 
 public class ServiceRegistry {
-
-    private static ServiceRegistry instance;
 
     // --- Repositories ---
     private final Repository<Admin> adminRepo;
@@ -24,10 +21,10 @@ public class ServiceRegistry {
     private final CartService cartService;
     private final OrderService orderService;
 
-    // --- Facade ---
-    private final OrderProcessingFacade orderFacade;
+    // --- Processors ---
+    private final OrderProcessor orderProcessor;
 
-    private ServiceRegistry() {
+    public ServiceRegistry() {
         this.adminRepo = new FileRepository<>(AppConfig.ADMIN_FILE);
         this.customerRepo = new FileRepository<>(AppConfig.CUSTOMER_FILE);
         this.driverRepo = new FileRepository<>(AppConfig.DELIVERY_PARTNER_FILE);
@@ -46,29 +43,7 @@ public class ServiceRegistry {
                 AppConfig.DEFAULT_DISCOUNT_THRESHOLD
         );
 
-        this.orderFacade = new OrderProcessingFacade(cartService, orderService, discountStrategy);
-    }
-
-    public static ServiceRegistry getInstance() {
-        if (instance == null) {
-            instance = new ServiceRegistry();
-        }
-        return instance;
-    }
-
-    public static User createUser(Role role, String username, String password, String name,
-                                  String phone, String address, String vehicleType) {
-        String id = IdGenerator.generateId();
-        switch (role) {
-            case ADMIN:
-                return new Admin(id, username, password, name);
-            case CUSTOMER:
-                return new Customer(id, username, password, name, phone, address);
-            case DELIVERY_PARTNER:
-                return new DeliveryPartner(id, username, password, name, phone, vehicleType);
-            default:
-                throw new IllegalArgumentException("Unknown role: " + role);
-        }
+        this.orderProcessor = new OrderProcessor(cartService, orderService, discountStrategy);
     }
 
     // ==================== GETTERS ====================
@@ -78,7 +53,7 @@ public class ServiceRegistry {
     public MenuService getMenuService() { return menuService; }
     public CartService getCartService() { return cartService; }
     public OrderService getOrderService() { return orderService; }
-    public OrderProcessingFacade getOrderFacade() { return orderFacade; }
+    public OrderProcessor getOrderProcessor() { return orderProcessor; }
 
     public Repository<Admin> getAdminRepo() { return adminRepo; }
     public Repository<Customer> getCustomerRepo() { return customerRepo; }

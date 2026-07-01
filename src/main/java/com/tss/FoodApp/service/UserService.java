@@ -2,7 +2,6 @@ package com.tss.FoodApp.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.Repository;
 import com.tss.FoodApp.exception.EntityNotFoundException;
@@ -24,7 +23,7 @@ public class UserService {
         return customerRepo.findAll();
     }
 
-    public Optional<Customer> getCustomerById(String id) {
+    public Customer getCustomerById(String id) {
         return customerRepo.findById(id);
     }
 
@@ -36,7 +35,7 @@ public class UserService {
         return driverRepo.findAll();
     }
 
-    public Optional<DeliveryPartner> getDriverById(String id) {
+    public DeliveryPartner getDriverById(String id) {
         return driverRepo.findById(id);
     }
 
@@ -49,9 +48,8 @@ public class UserService {
     }
 
     public String toggleUserStatus(String userId) {
-        Optional<Admin> adminOpt = adminRepo.findById(userId);
-        if (adminOpt.isPresent()) {
-            Admin admin = adminOpt.get();
+        Admin admin = adminRepo.findById(userId);
+        if (admin != null) {
             admin.setActive(!admin.isActive());
             adminRepo.update(admin);
             String status = admin.isActive() ? "Active" : "Inactive";
@@ -59,9 +57,8 @@ public class UserService {
             return admin.getName() + " is now " + status;
         }
 
-        Optional<Customer> customerOpt = customerRepo.findById(userId);
-        if (customerOpt.isPresent()) {
-            Customer customer = customerOpt.get();
+        Customer customer = customerRepo.findById(userId);
+        if (customer != null) {
             customer.setActive(!customer.isActive());
             customerRepo.update(customer);
             String status = customer.isActive() ? "Active" : "Inactive";
@@ -69,9 +66,8 @@ public class UserService {
             return customer.getName() + " is now " + status;
         }
 
-        Optional<DeliveryPartner> driverOpt = driverRepo.findById(userId);
-        if (driverOpt.isPresent()) {
-            DeliveryPartner driver = driverOpt.get();
+        DeliveryPartner driver = driverRepo.findById(userId);
+        if (driver != null) {
             driver.setActive(!driver.isActive());
             driverRepo.update(driver);
             String status = driver.isActive() ? "Active" : "Inactive";

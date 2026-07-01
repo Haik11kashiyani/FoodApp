@@ -2,7 +2,6 @@ package com.tss.FoodApp.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import com.tss.FoodApp.config.AppConfig;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.Repository;
@@ -23,27 +22,25 @@ public class AuthService {
     }
 
     public User login(String username, String password) {
-        Optional<User> user = findUserByUsername(username);
+        User user = findUserByUsername(username);
 
-        if (!user.isPresent()) {
+        if (user == null) {
             AppLogger.info("Login failed - user not found: " + username);
             throw new AuthenticationException("User not found: " + username);
         }
 
-        User foundUser = user.get();
-
-        if (!foundUser.isActive()) {
+        if (!user.isActive()) {
             AppLogger.info("Login attempt on inactive account: " + username);
             throw new AuthenticationException("Account is deactivated. Contact admin.");
         }
 
-        if (!foundUser.getPassword().equals(password)) {
+        if (!user.getPassword().equals(password)) {
             AppLogger.info("Wrong password for user: " + username);
             throw new AuthenticationException("Invalid password.");
         }
 
-        AppLogger.info("User logged in: " + username + " | Role: " + foundUser.getRole());
-        return foundUser;
+        AppLogger.info("User logged in: " + username + " | Role: " + user.getRole());
+        return user;
     }
 
     public Customer registerCustomer(String username, String password, String name, String phone, String address) {
@@ -82,38 +79,38 @@ public class AuthService {
         return driver;
     }
 
-    public void seedDefaultAdmin() {
+    public boolean seedDefaultAdmin() {
         if (adminRepo.findAll().isEmpty()) {
             String id = IdGenerator.generateId();
             Admin defaultAdmin = new Admin(id, AppConfig.DEFAULT_ADMIN_USERNAME,
                     AppConfig.DEFAULT_ADMIN_PASSWORD, AppConfig.DEFAULT_ADMIN_NAME);
             adminRepo.save(defaultAdmin);
             AppLogger.info("Default admin seeded: " + AppConfig.DEFAULT_ADMIN_USERNAME);
-            System.out.println("  Default admin created. Username: " + AppConfig.DEFAULT_ADMIN_USERNAME
-                    + " | Password: " + AppConfig.DEFAULT_ADMIN_PASSWORD);
+            return true;
         }
+        return false;
     }
 
     public boolean isUsernameTaken(String username) {
-        return findUserByUsername(username).isPresent();
+        return findUserByUsername(username) != null;
     }
 
-    private Optional<User> findUserByUsername(String username) {
+    private User findUserByUsername(String username) {
         for (Admin u : adminRepo.findAll()) {
             if (u.getUsername().equalsIgnoreCase(username)) {
-                return Optional.of(u);
+                return u;
             }
         }
         for (Customer u : customerRepo.findAll()) {
             if (u.getUsername().equalsIgnoreCase(username)) {
-                return Optional.of(u);
+                return u;
             }
         }
         for (DeliveryPartner u : driverRepo.findAll()) {
             if (u.getUsername().equalsIgnoreCase(username)) {
-                return Optional.of(u);
+                return u;
             }
         }
-        return Optional.empty();
+        return null;
     }
 }

@@ -35,8 +35,8 @@ public class AuthServiceTest {
         assertEquals("123 Main St", customer.getAddress());
         assertTrue(customer.isActive());
         
-        Optional<Customer> found = customerRepo.findById(customer.getId());
-        assertTrue(found.isPresent());
+        Customer found = customerRepo.findById(customer.getId());
+        assertNotNull(found);
     }
 
     @Test
@@ -103,8 +103,8 @@ class InMemoryRepository<T extends Identifiable> implements Repository<T> {
     }
 
     @Override
-    public Optional<T> findById(String id) {
-        return Optional.ofNullable(map.get(id));
+    public T findById(String id) {
+        return map.get(id);
     }
 
     @Override

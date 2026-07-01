@@ -14,14 +14,16 @@ public class CustomerMenu {
     private final MenuService menuService;
     private final CartService cartService;
     private final OrderService orderService;
-    private final OrderProcessingFacade orderFacade;
+    private final OrderProcessor orderProcessor;
+    private final UserService userService;
 
     public CustomerMenu(User user, ServiceRegistry registry) {
         this.customer = (Customer) user;
         this.menuService = registry.getMenuService();
         this.cartService = registry.getCartService();
         this.orderService = registry.getOrderService();
-        this.orderFacade = registry.getOrderFacade();
+        this.orderProcessor = registry.getOrderProcessor();
+        this.userService = registry.getUserService();
     }
 
     public void show() {
@@ -70,12 +72,11 @@ public class CustomerMenu {
             System.out.println("\n=== MENU ===");
             System.out.println("1. View Menu");
             System.out.println("2. Search Menu by Name");
-            System.out.println("3. Filter Menu by Category");
-            System.out.println("4. Sort Menu by Price");
-            System.out.println("5. Back");
+            System.out.println("3. Sort Menu by Price");
+            System.out.println("4. Back");
             System.out.println("---------------------------------------------");
 
-            int choice = InputUtil.readInt("Enter choice: ", 1, 5);
+            int choice = InputUtil.readInt("Enter choice: ", 1, 4);
             try {
                 switch (choice) {
                     case 1:
@@ -85,12 +86,9 @@ public class CustomerMenu {
                         searchMenu();
                         break;
                     case 3:
-                        filterByCategory();
-                        break;
-                    case 4:
                         sortByPrice();
                         break;
-                    case 5:
+                    case 4:
                         back = true;
                         break;
                 }
@@ -206,11 +204,7 @@ public class CustomerMenu {
         printItemsList(results, "SEARCH RESULTS for '" + keyword + "'");
     }
 
-    private void filterByCategory() {
-        FoodCategory category = InputUtil.readFoodCategory("Filter by category");
-        List<MenuItem> results = menuService.filterByCategory(category);
-        printItemsList(results, category.name() + " ITEMS");
-    }
+
 
     private void sortByPrice() {
         System.out.println("1. Low to High");
@@ -293,16 +287,36 @@ public class CustomerMenu {
         double cartTotal = cartService.getCartTotal(customer.getId());
         System.out.printf("%nCart Total: Rs. %.2f%n", cartTotal);
 
-        PercentageDiscount strategy = orderFacade.getDiscountStrategy();
-        if (strategy.calculateDiscount(cartTotal) > 0) {
+        PercentageDiscount strategy = orderProcessor.getDiscountStrategy();
+        double discountAmount = strategy.calculateDiscount(cartTotal);
+        if (discountAmount > 0) {
             System.out.println("You're eligible! " + strategy.getDescription());
+            System.out.printf("   You save: Rs. %.2f%n", discountAmount);
         }
+        double finalAmount = cartTotal - discountAmount;
 
         PaymentMode mode = InputUtil.readPaymentMode("\nSelect payment method");
+        String upiId = null;
+
+        if (mode == PaymentMode.UPI) {
+            System.out.println("\n  UPI Payment Selected");
+            upiId = InputUtil.readLine("   Enter your UPI ID (e.g., name@upi): ");
+            if (!upiId.contains("@")) {
+                System.out.println("Error: Invalid UPI ID format. Must contain '@'.");
+                return;
+            }
+            System.out.printf("   Processing payment of Rs. %.2f via UPI ID: %s%n", finalAmount, upiId);
+            System.out.println("   UPI Payment Successful!");
+        } else if (mode == PaymentMode.CASH) {
+            System.out.println("\n  Cash Payment Selected");
+            System.out.printf("   Amount to pay on delivery: Rs. %.2f%n", finalAmount);
+            System.out.println("   Status: Payment will be collected on delivery.");
+        }
 
         if (InputUtil.readYesNo("Confirm order?")) {
-            Order order = orderFacade.placeOrder(customer.getId(), customer.getName(), mode);
+            Order order = orderProcessor.placeOrder(customer.getId(), customer.getName(), mode, upiId);
             System.out.println("Order placed successfully! Order ID: " + order.getId());
+            InvoicePrinter.printInvoice(order);
         }
     }
 
@@ -324,7 +338,7 @@ public class CustomerMenu {
                 }
             }
             if (foundOrder != null) {
-                orderService.printInvoice(foundOrder);
+                InvoicePrinter.printInvoice(foundOrder);
             } else {
                 System.out.println("Error: Order not found.");
             }
@@ -351,7 +365,7 @@ public class CustomerMenu {
             customer.setAddress(InputUtil.readLine("New address: "));
         }
 
-        ServiceRegistry.getInstance().getUserService().updateCustomer(customer);
+        userService.updateCustomer(customer);
         System.out.println("Profile updated!");
     }
 

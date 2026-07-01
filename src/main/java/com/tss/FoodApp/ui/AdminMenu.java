@@ -14,7 +14,7 @@ public class AdminMenu {
     private final UserService userService;
     private final AuthService authService;
     private final OrderService orderService;
-    private final OrderProcessingFacade orderFacade;
+    private final OrderProcessor orderProcessor;
 
     public AdminMenu(User admin, ServiceRegistry registry) {
         this.admin = admin;
@@ -22,7 +22,7 @@ public class AdminMenu {
         this.userService = registry.getUserService();
         this.authService = registry.getAuthService();
         this.orderService = registry.getOrderService();
-        this.orderFacade = registry.getOrderFacade();
+        this.orderProcessor = registry.getOrderProcessor();
     }
 
     public void show() {
@@ -240,7 +240,7 @@ public class AdminMenu {
 
     private void viewDiscountSettings() {
         System.out.println("\n=== DISCOUNT SETTINGS ===");
-        PercentageDiscount strategy = orderFacade.getDiscountStrategy();
+        PercentageDiscount strategy = orderProcessor.getDiscountStrategy();
         System.out.println("Current Strategy: " + strategy.getDescription());
         System.out.println("Rule: Orders above the minimum amount get the discount automatically.");
     }
@@ -249,7 +249,7 @@ public class AdminMenu {
         viewDiscountSettings();
         double percentage = InputUtil.readDouble("New discount percentage (1-50): ", 1, 50);
         double threshold = InputUtil.readDouble("New minimum order amount: ", 0, 100000);
-        orderFacade.setDiscountStrategy(new PercentageDiscount(percentage, threshold));
+        orderProcessor.setDiscountStrategy(new PercentageDiscount(percentage, threshold));
         System.out.println("Discount settings updated!");
     }
 
@@ -322,7 +322,7 @@ public class AdminMenu {
                 }
             }
             if (foundOrder != null) {
-                orderService.printInvoice(foundOrder);
+                InvoicePrinter.printInvoice(foundOrder);
             } else {
                 System.out.println("Error: Order not found.");
             }

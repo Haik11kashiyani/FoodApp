@@ -26,8 +26,8 @@ public class FileRepository<T extends Identifiable> implements Repository<T> {
     }
 
     @Override
-    public Optional<T> findById(String id) {
-        return Optional.ofNullable(cache.get(id));
+    public T findById(String id) {
+        return cache.get(id);
     }
 
     @Override

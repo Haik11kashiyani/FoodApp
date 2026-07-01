@@ -8,13 +8,13 @@ public class TestRunner {
     public static void main(String[] args) {
         System.out.println("=== STARTING INTEGRATION TEST RUN ===");
         try {
-            ServiceRegistry registry = ServiceRegistry.getInstance();
+            ServiceRegistry registry = new ServiceRegistry();
             AuthService auth = registry.getAuthService();
             UserService userSvc = registry.getUserService();
             MenuService menu = registry.getMenuService();
             CartService cart = registry.getCartService();
             OrderService orderSvc = registry.getOrderService();
-            OrderProcessingFacade orderFacade = registry.getOrderFacade();
+            OrderProcessor orderProcessor = registry.getOrderProcessor();
 
             // 1. Seed default admin
             System.out.println("\n[STEP 1] Seeding Default Admin...");
@@ -53,9 +53,9 @@ public class TestRunner {
             driver.setAvailable(true);
             userSvc.updateDriver(driver);
 
-            // Note: Since OrderProcessingFacade.placeOrder will prompt for UPI ID if UPI is selected,
+            // Note: Since OrderProcessor.placeOrder will prompt for UPI ID if UPI is selected,
             // we will simulate Cash payment instead to run fully automated!
-            Order order = orderFacade.placeOrder(customer.getId(), customer.getName(), PaymentMode.CASH);
+            Order order = orderProcessor.placeOrder(customer.getId(), customer.getName(), PaymentMode.CASH, null);
             System.out.println("Placed Order: " + order);
 
             // 7. Process Order Delivery
@@ -66,7 +66,7 @@ public class TestRunner {
             orderSvc.updateOrderStatus(order.getId(), OrderStatus.DELIVERED);
 
             // Reload driver state
-            driver = userSvc.getDriverById(driver.getId()).get();
+            driver = userSvc.getDriverById(driver.getId());
             System.out.println("Driver availability AFTER delivery: " + driver.isAvailable());
 
             System.out.println("\n=== INTEGRATION TEST RUN SUCCESSFUL! ===");

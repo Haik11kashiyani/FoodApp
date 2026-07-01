@@ -50,11 +50,10 @@ public class OrderService {
     }
 
     public Order updateOrderStatus(String orderId, OrderStatus newStatus) {
-        Optional<Order> opt = orderRepo.findById(orderId);
-        if (!opt.isPresent()) {
+        Order order = orderRepo.findById(orderId);
+        if (order == null) {
             throw new EntityNotFoundException("Order", orderId);
         }
-        Order order = opt.get();
 
         if (!order.getStatus().canTransitionTo(newStatus)) {
             throw new ValidationException(
@@ -67,9 +66,8 @@ public class OrderService {
 
         // Handle delivery driver availability directly without listeners
         if (newStatus == OrderStatus.DELIVERED) {
-            Optional<DeliveryPartner> driverOpt = driverRepo.findById(order.getDeliveryPartnerId());
-            if (driverOpt.isPresent()) {
-                DeliveryPartner driver = driverOpt.get();
+            DeliveryPartner driver = driverRepo.findById(order.getDeliveryPartnerId());
+            if (driver != null) {
                 driver.setAvailable(true);
                 driverRepo.update(driver);
                 AppLogger.info("Driver " + driver.getName() + " marked available after delivery");
@@ -144,37 +142,5 @@ public class OrderService {
         return all;
     }
 
-    public void printInvoice(Order order) {
-        String line = InputUtil.repeat("=", 50);
-        System.out.println("\n+" + line + "+");
-        System.out.println("|" + centerText("INVOICE", 50) + "|");
-        System.out.println("+" + line + "+");
-        System.out.printf("| Order ID    : %-35s |%n", order.getId());
-        System.out.printf("| Customer    : %-35s |%n", order.getCustomerName());
-        System.out.printf("| Date        : %-35s |%n", order.getOrderedAt());
-        System.out.println("+" + line + "+");
-        System.out.println("|" + centerText("ITEMS", 50) + "|");
-        System.out.println("+" + line + "+");
 
-        for (CartItem item : order.getItems()) {
-            String itemLine = String.format("  %-18s x%-3d  Rs. %8.2f", item.getItemName(), item.getQuantity(), item.getSubtotal());
-            System.out.printf("| %-48s |%n", itemLine);
-        }
-
-        System.out.println("+" + line + "+");
-        System.out.printf("| Subtotal    : Rs. %-34.2f |%n", order.getTotalAmount());
-        System.out.printf("| Discount    : -Rs. %-33.2f |%n", order.getDiscountAmount());
-        System.out.printf("| %-48s |%n", InputUtil.repeat("-", 48));
-        System.out.printf("| TOTAL       : Rs. %-34.2f |%n", order.getFinalAmount());
-        System.out.println("+" + line + "+");
-        System.out.printf("| Payment     : %-35s |%n", order.getPaymentMode());
-        System.out.printf("| Delivery By : %-35s |%n", order.getDeliveryPartnerName());
-        System.out.printf("| Status      : %-35s |%n", order.getStatus());
-        System.out.println("+" + line + "+");
-    }
-
-    private String centerText(String text, int width) {
-        int padding = (width - text.length()) / 2;
-        return InputUtil.repeat(" ", Math.max(0, padding)) + text + InputUtil.repeat(" ", Math.max(0, width - padding - text.length()));
-    }
 }

@@ -75,3 +75,168 @@
 [2026-06-30 18:03:55] [INFO] Entity updated in data/delivery_partners.dat | ID: 50124268
 [2026-06-30 18:03:55] [INFO] Driver John Driver marked available after delivery
 [2026-06-30 18:03:55] [INFO] Order 3254FF6E status updated to: DELIVERED
+[2026-06-30 21:02:04] [INFO] Repository initialized for: data/admins.dat | Records: 1
+[2026-06-30 21:02:04] [INFO] Repository initialized for: data/customers.dat | Records: 1
+[2026-06-30 21:02:04] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 1
+[2026-06-30 21:02:04] [INFO] Repository initialized for: data/menu_items.dat | Records: 2
+[2026-06-30 21:02:04] [INFO] Repository initialized for: data/orders.dat | Records: 1
+[2026-06-30 21:02:10] [INFO] Repository initialized for: data/admins.dat | Records: 0
+[2026-06-30 21:02:10] [INFO] Repository initialized for: data/customers.dat | Records: 0
+[2026-06-30 21:02:10] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
+[2026-06-30 21:02:10] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
+[2026-06-30 21:02:10] [INFO] Repository initialized for: data/orders.dat | Records: 0
+[2026-06-30 21:02:10] [INFO] Entity saved to data/admins.dat
+[2026-06-30 21:02:10] [INFO] Default admin seeded: admin
+[2026-06-30 21:02:10] [INFO] Entity saved to data/delivery_partners.dat
+[2026-06-30 21:02:10] [INFO] New delivery partner registered: driver1 | ID: B1C5A900
+[2026-06-30 21:02:10] [INFO] Entity saved to data/customers.dat
+[2026-06-30 21:02:10] [INFO] New customer registered: customer1 | ID: 4AD9FFF5
+[2026-06-30 21:02:10] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:02:10] [INFO] Menu item added: Margherita Pizza | Rs. 250.0 | ID: 0195ED73
+[2026-06-30 21:02:10] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:02:10] [INFO] Menu item added: Cheese Burger | Rs. 150.0 | ID: 9E71F78C
+[2026-06-30 21:02:10] [INFO] Item added to cart: Margherita Pizza x2
+[2026-06-30 21:02:10] [INFO] Item added to cart: Cheese Burger x1
+[2026-06-30 21:02:10] [INFO] Entity updated in data/delivery_partners.dat | ID: B1C5A900
+[2026-06-30 21:02:10] [INFO] Cash payment processed for Rs. 585.00
+[2026-06-30 21:02:10] [INFO] Delivery partner assigned: John Driver | ID: B1C5A900
+[2026-06-30 21:02:11] [INFO] Entity saved to data/orders.dat
+[2026-06-30 21:02:11] [INFO] Order created: 595ED6CC | Customer: Alice Smith | Total: Rs. 585.0
+[2026-06-30 21:02:11] [INFO] Cart cleared for customer: 4AD9FFF5
+[2026-06-30 21:02:11] [INFO] Order placed successfully via Facade | Order ID: 595ED6CC
+[2026-06-30 21:02:11] [INFO] Entity updated in data/orders.dat | ID: 595ED6CC
+[2026-06-30 21:02:11] [INFO] Order 595ED6CC status updated to: PREPARING
+[2026-06-30 21:02:11] [INFO] Entity updated in data/orders.dat | ID: 595ED6CC
+[2026-06-30 21:02:11] [INFO] Order 595ED6CC status updated to: OUT_FOR_DELIVERY
+[2026-06-30 21:02:11] [INFO] Entity updated in data/orders.dat | ID: 595ED6CC
+[2026-06-30 21:02:11] [INFO] Entity updated in data/delivery_partners.dat | ID: B1C5A900
+[2026-06-30 21:02:11] [INFO] Driver John Driver marked available after delivery
+[2026-06-30 21:02:11] [INFO] Order 595ED6CC status updated to: DELIVERED
+[2026-06-30 21:11:04] [INFO] Repository initialized for: data/admins.dat | Records: 0
+[2026-06-30 21:11:04] [INFO] Repository initialized for: data/customers.dat | Records: 0
+[2026-06-30 21:11:04] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
+[2026-06-30 21:11:04] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
+[2026-06-30 21:11:04] [INFO] Repository initialized for: data/orders.dat | Records: 0
+[2026-06-30 21:11:04] [INFO] Entity saved to data/admins.dat
+[2026-06-30 21:11:04] [INFO] Default admin seeded: admin
+[2026-06-30 21:11:04] [INFO] Entity saved to data/delivery_partners.dat
+[2026-06-30 21:11:04] [INFO] New delivery partner registered: driver1 | ID: D2C868CA
+[2026-06-30 21:11:04] [INFO] Entity saved to data/customers.dat
+[2026-06-30 21:11:04] [INFO] New customer registered: customer1 | ID: 1C99CFF8
+[2026-06-30 21:11:04] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:11:04] [INFO] Menu item added: Margherita Pizza | Rs. 250.0 | ID: 4BAD0F65
+[2026-06-30 21:11:04] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:11:04] [INFO] Menu item added: Cheese Burger | Rs. 150.0 | ID: BC688D2B
+[2026-06-30 21:11:04] [INFO] Item added to cart: Margherita Pizza x2
+[2026-06-30 21:11:04] [INFO] Item added to cart: Cheese Burger x1
+[2026-06-30 21:11:04] [INFO] Entity updated in data/delivery_partners.dat | ID: D2C868CA
+[2026-06-30 21:11:04] [INFO] Cash payment processed for Rs. 585.00
+[2026-06-30 21:11:04] [INFO] Delivery partner assigned: John Driver | ID: D2C868CA
+[2026-06-30 21:11:04] [INFO] Entity saved to data/orders.dat
+[2026-06-30 21:11:04] [INFO] Order created: 167BE779 | Customer: Alice Smith | Total: Rs. 585.0
+[2026-06-30 21:11:04] [INFO] Cart cleared for customer: 1C99CFF8
+[2026-06-30 21:11:04] [INFO] Order placed successfully via Facade | Order ID: 167BE779
+[2026-06-30 21:11:04] [INFO] Entity updated in data/orders.dat | ID: 167BE779
+[2026-06-30 21:11:04] [INFO] Order 167BE779 status updated to: PREPARING
+[2026-06-30 21:11:04] [INFO] Entity updated in data/orders.dat | ID: 167BE779
+[2026-06-30 21:11:04] [INFO] Order 167BE779 status updated to: OUT_FOR_DELIVERY
+[2026-06-30 21:11:04] [INFO] Entity updated in data/orders.dat | ID: 167BE779
+[2026-06-30 21:11:04] [INFO] Entity updated in data/delivery_partners.dat | ID: D2C868CA
+[2026-06-30 21:11:04] [INFO] Driver John Driver marked available after delivery
+[2026-06-30 21:11:04] [INFO] Order 167BE779 status updated to: DELIVERED
+[2026-06-30 21:24:37] [INFO] Repository initialized for: data/admins.dat | Records: 0
+[2026-06-30 21:24:37] [INFO] Repository initialized for: data/customers.dat | Records: 0
+[2026-06-30 21:24:37] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
+[2026-06-30 21:24:37] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
+[2026-06-30 21:24:37] [INFO] Repository initialized for: data/orders.dat | Records: 0
+[2026-06-30 21:24:37] [INFO] Entity saved to data/admins.dat
+[2026-06-30 21:24:37] [INFO] Default admin seeded: admin
+[2026-06-30 21:24:37] [INFO] Entity saved to data/delivery_partners.dat
+[2026-06-30 21:24:37] [INFO] New delivery partner registered: driver1 | ID: 7070BF29
+[2026-06-30 21:24:37] [INFO] Entity saved to data/customers.dat
+[2026-06-30 21:24:37] [INFO] New customer registered: customer1 | ID: C866FEAC
+[2026-06-30 21:24:37] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:24:37] [INFO] Menu item added: Margherita Pizza | Rs. 250.0 | ID: F759F0FF
+[2026-06-30 21:24:37] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:24:37] [INFO] Menu item added: Cheese Burger | Rs. 150.0 | ID: 5C310FF8
+[2026-06-30 21:24:37] [INFO] Item added to cart: Margherita Pizza x2
+[2026-06-30 21:24:37] [INFO] Item added to cart: Cheese Burger x1
+[2026-06-30 21:24:37] [INFO] Entity updated in data/delivery_partners.dat | ID: 7070BF29
+[2026-06-30 21:24:37] [INFO] Cash payment processed for Rs. 585.00
+[2026-06-30 21:24:37] [INFO] Delivery partner assigned: John Driver | ID: 7070BF29
+[2026-06-30 21:24:37] [INFO] Entity saved to data/orders.dat
+[2026-06-30 21:24:37] [INFO] Order created: 0C805F17 | Customer: Alice Smith | Total: Rs. 585.0
+[2026-06-30 21:24:37] [INFO] Cart cleared for customer: C866FEAC
+[2026-06-30 21:24:37] [INFO] Order placed successfully via Facade | Order ID: 0C805F17
+[2026-06-30 21:24:37] [INFO] Entity updated in data/orders.dat | ID: 0C805F17
+[2026-06-30 21:24:37] [INFO] Order 0C805F17 status updated to: PREPARING
+[2026-06-30 21:24:37] [INFO] Entity updated in data/orders.dat | ID: 0C805F17
+[2026-06-30 21:24:37] [INFO] Order 0C805F17 status updated to: OUT_FOR_DELIVERY
+[2026-06-30 21:24:37] [INFO] Entity updated in data/orders.dat | ID: 0C805F17
+[2026-06-30 21:24:37] [INFO] Entity updated in data/delivery_partners.dat | ID: 7070BF29
+[2026-06-30 21:24:37] [INFO] Driver John Driver marked available after delivery
+[2026-06-30 21:24:37] [INFO] Order 0C805F17 status updated to: DELIVERED
+[2026-06-30 21:26:26] [INFO] Repository initialized for: data/admins.dat | Records: 0
+[2026-06-30 21:26:26] [INFO] Repository initialized for: data/customers.dat | Records: 0
+[2026-06-30 21:26:26] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
+[2026-06-30 21:26:26] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
+[2026-06-30 21:26:26] [INFO] Repository initialized for: data/orders.dat | Records: 0
+[2026-06-30 21:26:27] [INFO] Entity saved to data/admins.dat
+[2026-06-30 21:26:27] [INFO] Default admin seeded: admin
+[2026-06-30 21:26:27] [INFO] Entity saved to data/delivery_partners.dat
+[2026-06-30 21:26:27] [INFO] New delivery partner registered: driver1 | ID: E2CD7C28
+[2026-06-30 21:26:27] [INFO] Entity saved to data/customers.dat
+[2026-06-30 21:26:27] [INFO] New customer registered: customer1 | ID: A11169D9
+[2026-06-30 21:26:27] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:26:27] [INFO] Menu item added: Margherita Pizza | Rs. 250.0 | ID: 17AFF483
+[2026-06-30 21:26:27] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:26:27] [INFO] Menu item added: Cheese Burger | Rs. 150.0 | ID: C0C48DA5
+[2026-06-30 21:26:27] [INFO] Item added to cart: Margherita Pizza x2
+[2026-06-30 21:26:27] [INFO] Item added to cart: Cheese Burger x1
+[2026-06-30 21:26:27] [INFO] Entity updated in data/delivery_partners.dat | ID: E2CD7C28
+[2026-06-30 21:26:27] [INFO] Cash payment processed for Rs. 585.00
+[2026-06-30 21:26:27] [INFO] Delivery partner assigned: John Driver | ID: E2CD7C28
+[2026-06-30 21:26:27] [INFO] Entity saved to data/orders.dat
+[2026-06-30 21:26:27] [INFO] Order created: 2D0A3172 | Customer: Alice Smith | Total: Rs. 585.0
+[2026-06-30 21:26:27] [INFO] Cart cleared for customer: A11169D9
+[2026-06-30 21:26:27] [INFO] Order placed successfully via Facade | Order ID: 2D0A3172
+[2026-06-30 21:26:27] [INFO] Entity updated in data/orders.dat | ID: 2D0A3172
+[2026-06-30 21:26:27] [INFO] Order 2D0A3172 status updated to: PREPARING
+[2026-06-30 21:26:27] [INFO] Entity updated in data/orders.dat | ID: 2D0A3172
+[2026-06-30 21:26:27] [INFO] Order 2D0A3172 status updated to: OUT_FOR_DELIVERY
+[2026-06-30 21:26:27] [INFO] Entity updated in data/orders.dat | ID: 2D0A3172
+[2026-06-30 21:26:27] [INFO] Entity updated in data/delivery_partners.dat | ID: E2CD7C28
+[2026-06-30 21:26:27] [INFO] Driver John Driver marked available after delivery
+[2026-06-30 21:26:27] [INFO] Order 2D0A3172 status updated to: DELIVERED
+[2026-06-30 21:29:16] [INFO] Repository initialized for: data/admins.dat | Records: 0
+[2026-06-30 21:29:16] [INFO] Repository initialized for: data/customers.dat | Records: 0
+[2026-06-30 21:29:16] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
+[2026-06-30 21:29:16] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
+[2026-06-30 21:29:16] [INFO] Repository initialized for: data/orders.dat | Records: 0
+[2026-06-30 21:29:16] [INFO] Entity saved to data/admins.dat
+[2026-06-30 21:29:16] [INFO] Default admin seeded: admin
+[2026-06-30 21:29:16] [INFO] Entity saved to data/delivery_partners.dat
+[2026-06-30 21:29:16] [INFO] New delivery partner registered: driver1 | ID: BDCE9CBB
+[2026-06-30 21:29:16] [INFO] Entity saved to data/customers.dat
+[2026-06-30 21:29:16] [INFO] New customer registered: customer1 | ID: 510FAF77
+[2026-06-30 21:29:16] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:29:16] [INFO] Menu item added: Margherita Pizza | Rs. 250.0 | ID: 884847BA
+[2026-06-30 21:29:16] [INFO] Entity saved to data/menu_items.dat
+[2026-06-30 21:29:16] [INFO] Menu item added: Cheese Burger | Rs. 150.0 | ID: C1C5431F
+[2026-06-30 21:29:16] [INFO] Item added to cart: Margherita Pizza x2
+[2026-06-30 21:29:16] [INFO] Item added to cart: Cheese Burger x1
+[2026-06-30 21:29:16] [INFO] Entity updated in data/delivery_partners.dat | ID: BDCE9CBB
+[2026-06-30 21:29:16] [INFO] Cash payment processed for Rs. 585.00
+[2026-06-30 21:29:16] [INFO] Delivery partner assigned: John Driver | ID: BDCE9CBB
+[2026-06-30 21:29:16] [INFO] Entity saved to data/orders.dat
+[2026-06-30 21:29:16] [INFO] Order created: 105B6E21 | Customer: Alice Smith | Total: Rs. 585.0
+[2026-06-30 21:29:16] [INFO] Cart cleared for customer: 510FAF77
+[2026-06-30 21:29:16] [INFO] Order placed successfully | Order ID: 105B6E21
+[2026-06-30 21:29:16] [INFO] Entity updated in data/orders.dat | ID: 105B6E21
+[2026-06-30 21:29:16] [INFO] Order 105B6E21 status updated to: PREPARING
+[2026-06-30 21:29:16] [INFO] Entity updated in data/orders.dat | ID: 105B6E21
+[2026-06-30 21:29:16] [INFO] Order 105B6E21 status updated to: OUT_FOR_DELIVERY
+[2026-06-30 21:29:16] [INFO] Entity updated in data/orders.dat | ID: 105B6E21
+[2026-06-30 21:29:16] [INFO] Entity updated in data/delivery_partners.dat | ID: BDCE9CBB
+[2026-06-30 21:29:16] [INFO] Driver John Driver marked available after delivery
+[2026-06-30 21:29:16] [INFO] Order 105B6E21 status updated to: DELIVERED

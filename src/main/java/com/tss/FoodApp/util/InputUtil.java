@@ -82,33 +82,45 @@ public class InputUtil {
     }
 
     public static CuisineType readCuisineType(String prompt) {
-        CuisineType[] values = CuisineType.values();
-        System.out.println(prompt + ":");
-        for (int i = 0; i < values.length; i++) {
-            System.out.println("  " + (i + 1) + ". " + values[i].name());
+        while (true) {
+            System.out.print(prompt + " (1. INDIAN, 2. ITALIAN): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+            if (input.equals("1") || input.equalsIgnoreCase("INDIAN")) {
+                return CuisineType.INDIAN;
+            }
+            if (input.equals("2") || input.equalsIgnoreCase("ITALIAN")) {
+                return CuisineType.ITALIAN;
+            }
+            System.out.println("Error: Invalid choice. Please enter 1 or 2, or the name.");
         }
-        int choice = readInt("  Select option: ", 1, values.length);
-        return values[choice - 1];
     }
 
     public static FoodCategory readFoodCategory(String prompt) {
-        FoodCategory[] values = FoodCategory.values();
-        System.out.println(prompt + ":");
-        for (int i = 0; i < values.length; i++) {
-            System.out.println("  " + (i + 1) + ". " + values[i].name());
+        while (true) {
+            System.out.print(prompt + " (1. VEG, 2. NON_VEG): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+            if (input.equals("1") || input.equalsIgnoreCase("VEG")) {
+                return FoodCategory.VEG;
+            }
+            if (input.equals("2") || input.equalsIgnoreCase("NON_VEG")) {
+                return FoodCategory.NON_VEG;
+            }
+            System.out.println("Error: Invalid choice. Please enter 1 or 2, or the name.");
         }
-        int choice = readInt("  Select option: ", 1, values.length);
-        return values[choice - 1];
     }
 
     public static PaymentMode readPaymentMode(String prompt) {
-        PaymentMode[] values = PaymentMode.values();
-        System.out.println(prompt + ":");
-        for (int i = 0; i < values.length; i++) {
-            System.out.println("  " + (i + 1) + ". " + values[i].name());
+        while (true) {
+            System.out.print(prompt + " (1. CASH, 2. UPI): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+            if (input.equals("1") || input.equalsIgnoreCase("CASH")) {
+                return PaymentMode.CASH;
+            }
+            if (input.equals("2") || input.equalsIgnoreCase("UPI")) {
+                return PaymentMode.UPI;
+            }
+            System.out.println("Error: Invalid choice. Please enter 1 or 2, or the name.");
         }
-        int choice = readInt("  Select option: ", 1, values.length);
-        return values[choice - 1];
     }
 
     public static String repeat(String str, int count) {

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.Repository;
 import com.tss.FoodApp.exception.EntityNotFoundException;
@@ -35,11 +34,10 @@ public class MenuService {
     }
 
     public MenuItem updateItem(String id, String newName, double newPrice, FoodCategory newCategory, CuisineType newCuisineType) {
-        Optional<MenuItem> opt = menuRepo.findById(id);
-        if (!opt.isPresent()) {
+        MenuItem item = menuRepo.findById(id);
+        if (item == null) {
             throw new EntityNotFoundException("MenuItem", id);
         }
-        MenuItem item = opt.get();
 
         item.setName(newName);
         item.setPrice(newPrice);
@@ -83,15 +81,7 @@ public class MenuService {
         return results;
     }
 
-    public List<MenuItem> filterByCategory(FoodCategory category) {
-        List<MenuItem> results = new ArrayList<>();
-        for (MenuItem item : menuRepo.findAll()) {
-            if (item.getCategory() == category) {
-                results.add(item);
-            }
-        }
-        return results;
-    }
+
 
     public List<MenuItem> filterByCuisineAndCategory(CuisineType cuisine, FoodCategory category) {
         List<MenuItem> results = new ArrayList<>();
@@ -137,10 +127,10 @@ public class MenuService {
     }
 
     public MenuItem getItemById(String itemId) {
-        Optional<MenuItem> opt = menuRepo.findById(itemId);
-        if (!opt.isPresent()) {
+        MenuItem item = menuRepo.findById(itemId);
+        if (item == null) {
             throw new EntityNotFoundException("MenuItem", itemId);
         }
-        return opt.get();
+        return item;
     }
 }
