@@ -389,3 +389,19 @@
 [2026-07-18 17:01:04] [INFO] Order 1 status updated to: OUT_FOR_DELIVERY
 [2026-07-18 17:01:06] [INFO] Driver Driver One marked available after delivery
 [2026-07-18 17:01:06] [INFO] Order 1 status updated to: DELIVERED
+[2026-07-18 17:03:50] [INFO] Default admin seeded: admin
+[2026-07-18 17:03:52] [INFO] New delivery partner registered: driver1 | Username: driver1
+[2026-07-18 17:03:53] [INFO] New customer registered: cust1 | Username: cust1
+[2026-07-18 17:03:54] [INFO] Menu item added: Paneer Butter Masala | Rs. 250.0 | Name: Paneer Butter Masala
+[2026-07-18 17:03:54] [INFO] Menu item added: Margherita Pizza | Rs. 399.0 | Name: Margherita Pizza
+[2026-07-18 17:03:55] [INFO] Item added to cart: Paneer Butter Masala x2
+[2026-07-18 17:03:55] [INFO] Item added to cart: Margherita Pizza x1
+[2026-07-18 17:03:57] [INFO] Cash payment processed for Rs. 809.10
+[2026-07-18 17:03:58] [INFO] Delivery partner assigned: Driver One | ID: 1
+[2026-07-18 17:03:58] [INFO] Order created | Customer: Customer One | Total: Rs. 809.1
+[2026-07-18 17:03:58] [INFO] Cart cleared for customer: 1
+[2026-07-18 17:03:58] [INFO] Order placed successfully | Order ID: 1
+[2026-07-18 17:03:59] [INFO] Order 1 status updated to: PREPARING
+[2026-07-18 17:04:00] [INFO] Order 1 status updated to: OUT_FOR_DELIVERY
+[2026-07-18 17:04:01] [INFO] Driver Driver One marked available after delivery
+[2026-07-18 17:04:01] [INFO] Order 1 status updated to: DELIVERED
