@@ -9,7 +9,7 @@ import com.tss.FoodApp.exception.EntityNotFoundException;
 public class FileRepository<T extends Identifiable> implements Repository<T> {
 
     private final String filePath;
-    private final Map<String, T> cache;
+    private final Map<Long, T> cache;
 
     public FileRepository(String filePath) {
         this.filePath = filePath;
@@ -19,14 +19,15 @@ public class FileRepository<T extends Identifiable> implements Repository<T> {
 
     @Override
     public T save(T entity) {
-        cache.put(getEntityId(entity), entity);
+        Long id = getEntityId(entity);
+        cache.put(id, entity);
         saveToFile();
         AppLogger.info("Entity saved to " + filePath);
         return entity;
     }
 
     @Override
-    public T findById(String id) {
+    public T findById(Long id) {
         return cache.get(id);
     }
 
@@ -37,18 +38,18 @@ public class FileRepository<T extends Identifiable> implements Repository<T> {
 
     @Override
     public T update(T entity) {
-        String id = getEntityId(entity);
+        Long id = getEntityId(entity);
         if (cache.containsKey(id)) {
             cache.put(id, entity);
             saveToFile();
             AppLogger.info("Entity updated in " + filePath + " | ID: " + id);
             return entity;
         }
-        throw new EntityNotFoundException("Entity", id);
+        throw new EntityNotFoundException("Entity", String.valueOf(id));
     }
 
     @Override
-    public boolean deleteById(String id) {
+    public boolean deleteById(Long id) {
         T removed = cache.remove(id);
         if (removed != null) {
             saveToFile();
@@ -58,19 +59,19 @@ public class FileRepository<T extends Identifiable> implements Repository<T> {
         return false;
     }
 
-    private String getEntityId(T entity) {
+    private Long getEntityId(T entity) {
         return entity.getId();
     }
 
     @SuppressWarnings("unchecked")
-    private Map<String, T> loadFromFile() {
+    private Map<Long, T> loadFromFile() {
         File file = new File(filePath);
         if (!file.exists() || file.length() == 0) {
             return new HashMap<>();
         }
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             List<T> list = (List<T>) ois.readObject();
-            Map<String, T> map = new HashMap<>();
+            Map<Long, T> map = new HashMap<>();
             for (T entity : list) {
                 map.put(getEntityId(entity), entity);
             }

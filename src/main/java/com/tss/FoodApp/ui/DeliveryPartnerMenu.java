@@ -77,7 +77,7 @@ public class DeliveryPartnerMenu {
         }
         printItemsList(activeOrders, "ACTIVE ORDERS");
 
-        String orderId = InputUtil.readString("Enter order ID to update: ");
+        Long orderId = InputUtil.readLong("Enter order ID to update: ");
         System.out.println("Select new status:");
         System.out.println("1. PREPARING");
         System.out.println("2. OUT_FOR_DELIVERY");

@@ -19,7 +19,7 @@ public class OrderProcessor {
         this.discountStrategy = discountStrategy;
     }
 
-    public Order placeOrder(String customerId, String customerName, PaymentMode paymentMode, String upiId) {
+    public Order placeOrder(Long customerId, String customerName, PaymentMode paymentMode, String upiId) {
         if (cartService.isCartEmpty(customerId)) {
             throw new ValidationException("Cart is empty! Add items before placing an order.");
         }

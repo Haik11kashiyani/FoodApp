@@ -17,6 +17,4 @@ public class PercentageDiscount {
         return String.format("%.0f%% off on orders above Rs. %.0f", percentage, threshold);
     }
 
-    public double getPercentage() { return percentage; }
-    public double getThreshold() { return threshold; }
 }

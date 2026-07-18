@@ -211,7 +211,7 @@ public class AdminMenu {
     private void updateMenuItem() {
         System.out.println("\n=== UPDATE MENU ITEM ===");
         viewAllMenuItems();
-        String itemId = InputUtil.readString("Enter item ID to update: ");
+        Long itemId = InputUtil.readLong("Enter item ID to update: ");
 
         String name = InputUtil.readString("New name: ");
         double price = InputUtil.readDouble("New price: ", 1, AppConfig.MAX_PRICE);
@@ -225,7 +225,7 @@ public class AdminMenu {
     private void deleteMenuItem() {
         System.out.println("\n=== DELETE MENU ITEM ===");
         viewAllMenuItems();
-        String itemId = InputUtil.readString("Enter item ID to delete: ");
+        Long itemId = InputUtil.readLong("Enter item ID to delete: ");
 
         if (InputUtil.readYesNo("Are you sure?")) {
             menuService.deleteItem(itemId);
@@ -299,7 +299,7 @@ public class AdminMenu {
         System.out.println("\n=== TOGGLE USER STATUS ===");
         List<User> allUsers = userService.getAllUsers();
         printItemsList(allUsers, "ALL USERS");
-        String userId = InputUtil.readString("Enter user ID to toggle: ");
+        Long userId = InputUtil.readLong("Enter user ID to toggle: ");
         String result = userService.toggleUserStatus(userId);
         System.out.println(result);
     }
@@ -313,7 +313,7 @@ public class AdminMenu {
         printItemsList(orders, "ALL ORDERS");
 
         if (InputUtil.readYesNo("View order details?")) {
-            String orderId = InputUtil.readString("Enter order ID: ");
+            Long orderId = InputUtil.readLong("Enter order ID: ");
             Order foundOrder = null;
             for (Order o : orders) {
                 if (o.getId().equals(orderId)) {

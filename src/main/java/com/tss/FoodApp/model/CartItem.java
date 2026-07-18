@@ -5,19 +5,19 @@ import java.io.Serializable;
 public class CartItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String menuItemId;
+    private Long menuItemId;
     private String itemName;
     private double price;
     private int quantity;
 
-    public CartItem(String menuItemId, String itemName, double price, int quantity) {
+    public CartItem(Long menuItemId, String itemName, double price, int quantity) {
         this.menuItemId = menuItemId;
         this.itemName = itemName;
         this.price = price;
         this.quantity = quantity;
     }
 
-    public String getMenuItemId() { return menuItemId; }
+    public Long getMenuItemId() { return menuItemId; }
     public String getItemName() { return itemName; }
     public double getPrice() { return price; }
     public int getQuantity() { return quantity; }

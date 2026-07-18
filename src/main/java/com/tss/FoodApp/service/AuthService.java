@@ -7,7 +7,6 @@ import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.Repository;
 import com.tss.FoodApp.exception.*;
 import com.tss.FoodApp.util.AppLogger;
-import com.tss.FoodApp.util.IdGenerator;
 
 public class AuthService {
     private final Repository<Admin> adminRepo;
@@ -48,10 +47,9 @@ public class AuthService {
             throw new DuplicateEntityException("Username already taken: " + username);
         }
 
-        String id = IdGenerator.generateId();
-        Customer customer = new Customer(id, username, password, name, phone, address);
+        Customer customer = new Customer(null, username, password, name, phone, address);
         customerRepo.save(customer);
-        AppLogger.info("New customer registered: " + username + " | ID: " + id);
+        AppLogger.info("New customer registered: " + username + " | Username: " + username);
         return customer;
     }
 
@@ -60,10 +58,9 @@ public class AuthService {
             throw new DuplicateEntityException("Username already taken: " + username);
         }
 
-        String id = IdGenerator.generateId();
-        Admin admin = new Admin(id, username, password, name);
+        Admin admin = new Admin(null, username, password, name);
         adminRepo.save(admin);
-        AppLogger.info("New admin registered: " + username + " | ID: " + id);
+        AppLogger.info("New admin registered: " + username + " | Username: " + username);
         return admin;
     }
 
@@ -72,17 +69,15 @@ public class AuthService {
             throw new DuplicateEntityException("Username already taken: " + username);
         }
 
-        String id = IdGenerator.generateId();
-        DeliveryPartner driver = new DeliveryPartner(id, username, password, name, phone, vehicleType);
+        DeliveryPartner driver = new DeliveryPartner(null, username, password, name, phone, vehicleType);
         driverRepo.save(driver);
-        AppLogger.info("New delivery partner registered: " + username + " | ID: " + id);
+        AppLogger.info("New delivery partner registered: " + username + " | Username: " + username);
         return driver;
     }
 
     public boolean seedDefaultAdmin() {
         if (adminRepo.findAll().isEmpty()) {
-            String id = IdGenerator.generateId();
-            Admin defaultAdmin = new Admin(id, AppConfig.DEFAULT_ADMIN_USERNAME,
+            Admin defaultAdmin = new Admin(null, AppConfig.DEFAULT_ADMIN_USERNAME,
                     AppConfig.DEFAULT_ADMIN_PASSWORD, AppConfig.DEFAULT_ADMIN_NAME);
             adminRepo.save(defaultAdmin);
             AppLogger.info("Default admin seeded: " + AppConfig.DEFAULT_ADMIN_USERNAME);

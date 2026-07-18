@@ -3,6 +3,7 @@ package com.tss.FoodApp;
 import com.tss.FoodApp.config.AppConfig;
 import com.tss.FoodApp.model.*;
 import com.tss.FoodApp.repository.*;
+import com.tss.FoodApp.repository.jdbc.*;
 import com.tss.FoodApp.service.*;
 
 public class ServiceRegistry {
@@ -25,16 +26,17 @@ public class ServiceRegistry {
     private final OrderProcessor orderProcessor;
 
     public ServiceRegistry() {
-        this.adminRepo = new FileRepository<>(AppConfig.ADMIN_FILE);
-        this.customerRepo = new FileRepository<>(AppConfig.CUSTOMER_FILE);
-        this.driverRepo = new FileRepository<>(AppConfig.DELIVERY_PARTNER_FILE);
-        this.menuRepo = new FileRepository<>(AppConfig.MENU_FILE);
-        this.orderRepo = new FileRepository<>(AppConfig.ORDER_FILE);
+        this.adminRepo = new AdminJdbcRepository();
+        this.customerRepo = new CustomerJdbcRepository();
+        this.driverRepo = new DeliveryPartnerJdbcRepository();
+        this.menuRepo = new MenuItemJdbcRepository();
+        this.orderRepo = new OrderJdbcRepository();
 
         this.authService = new AuthService(adminRepo, customerRepo, driverRepo);
         this.userService = new UserService(adminRepo, customerRepo, driverRepo);
         this.menuService = new MenuService(menuRepo);
-        this.cartService = new CartService();
+        Repository<com.tss.FoodApp.model.Cart> cartRepo = new CartJdbcRepository();
+        this.cartService = new CartService(cartRepo);
         this.orderService = new OrderService(orderRepo, driverRepo);
 
         // Default discount strategy
@@ -55,9 +57,4 @@ public class ServiceRegistry {
     public OrderService getOrderService() { return orderService; }
     public OrderProcessor getOrderProcessor() { return orderProcessor; }
 
-    public Repository<Admin> getAdminRepo() { return adminRepo; }
-    public Repository<Customer> getCustomerRepo() { return customerRepo; }
-    public Repository<DeliveryPartner> getDriverRepo() { return driverRepo; }
-    public Repository<MenuItem> getMenuRepo() { return menuRepo; }
-    public Repository<Order> getOrderRepo() { return orderRepo; }
 }

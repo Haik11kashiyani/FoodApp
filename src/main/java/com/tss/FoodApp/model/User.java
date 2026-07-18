@@ -6,10 +6,10 @@ import java.time.format.DateTimeFormatter;
 
 import com.tss.FoodApp.repository.Identifiable;
 
-public abstract class User implements Serializable, Identifiable {
+public class User implements Serializable, Identifiable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private Long id;
     private String username;
     private String password;
     private String name;
@@ -17,7 +17,7 @@ public abstract class User implements Serializable, Identifiable {
     private boolean isActive;
     private String createdAt;
 
-    public User(String id, String username, String password, String name, Role role) {
+    public User(Long id, String username, String password, String name, Role role) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -27,7 +27,7 @@ public abstract class User implements Serializable, Identifiable {
         this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    public String getId() { return id; }
+    public Long getId() { return id; }
     public String getUsername() { return username; }
     public String getPassword() { return password; }
     public String getName() { return name; }
@@ -35,7 +35,7 @@ public abstract class User implements Serializable, Identifiable {
     public boolean isActive() { return isActive; }
     public String getCreatedAt() { return createdAt; }
 
-    public void setId(String id) { this.id = id; }
+    public void setId(Long id) { this.id = id; }
     public void setUsername(String username) { this.username = username; }
     public void setPassword(String password) { this.password = password; }
     public void setName(String name) { this.name = name; }

@@ -23,7 +23,7 @@ public class UserService {
         return customerRepo.findAll();
     }
 
-    public Customer getCustomerById(String id) {
+    public Customer getCustomerById(Long id) {
         return customerRepo.findById(id);
     }
 
@@ -35,7 +35,7 @@ public class UserService {
         return driverRepo.findAll();
     }
 
-    public DeliveryPartner getDriverById(String id) {
+    public DeliveryPartner getDriverById(Long id) {
         return driverRepo.findById(id);
     }
 
@@ -47,7 +47,7 @@ public class UserService {
         return adminRepo.findAll();
     }
 
-    public String toggleUserStatus(String userId) {
+    public String toggleUserStatus(Long userId) {
         Admin admin = adminRepo.findById(userId);
         if (admin != null) {
             admin.setActive(!admin.isActive());
@@ -70,12 +70,12 @@ public class UserService {
         if (driver != null) {
             driver.setActive(!driver.isActive());
             driverRepo.update(driver);
-            String status = driver.isActive() ? "Active" : "Inactive";
+            String status = driver.isAvailable() ? "Active" : "Inactive";
             AppLogger.info("User " + driver.getUsername() + " set to " + status);
             return driver.getName() + " is now " + status;
         }
 
-        throw new EntityNotFoundException("User", userId);
+        throw new EntityNotFoundException("User", String.valueOf(userId));
     }
 
     public List<User> getAllUsers() {
