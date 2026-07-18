@@ -240,3 +240,152 @@
 [2026-06-30 21:29:16] [INFO] Entity updated in data/delivery_partners.dat | ID: BDCE9CBB
 [2026-06-30 21:29:16] [INFO] Driver John Driver marked available after delivery
 [2026-06-30 21:29:16] [INFO] Order 105B6E21 status updated to: DELIVERED
+[2026-07-01 14:38:31] [INFO] Repository initialized for: data/admins.dat | Records: 1
+[2026-07-01 14:38:31] [INFO] Repository initialized for: data/customers.dat | Records: 1
+[2026-07-01 14:38:31] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 1
+[2026-07-01 14:38:31] [INFO] Repository initialized for: data/menu_items.dat | Records: 2
+[2026-07-01 14:38:31] [INFO] Repository initialized for: data/orders.dat | Records: 1
+[2026-07-01 14:38:31] [INFO] Application started successfully.
+[2026-07-01 14:40:31] [INFO] User logged in: admin | Role: ADMIN
+[2026-07-01 14:42:18] [INFO] Entity saved to data/menu_items.dat
+[2026-07-01 14:42:18] [INFO] Menu item added: dosha | Rs. 120.0 | ID: A50B941C
+[2026-07-01 14:45:14] [INFO] Entity deleted from data/menu_items.dat | ID: A50B941C
+[2026-07-01 14:45:14] [INFO] Menu item deleted | ID: A50B941C
+[2026-07-01 15:11:38] [INFO] Entity updated in data/menu_items.dat | ID: 884847BA
+[2026-07-01 15:11:38] [INFO] Menu item updated: burger | ID: 884847BA
+[2026-07-02 17:39:15] [INFO] Repository initialized for: data/admins.dat | Records: 1
+[2026-07-02 17:39:15] [INFO] Repository initialized for: data/customers.dat | Records: 1
+[2026-07-02 17:39:15] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 1
+[2026-07-02 17:39:15] [INFO] Repository initialized for: data/menu_items.dat | Records: 2
+[2026-07-02 17:39:15] [INFO] Repository initialized for: data/orders.dat | Records: 1
+[2026-07-02 17:39:15] [INFO] Application started successfully.
+[2026-07-02 17:39:27] [INFO] User logged in: admin | Role: ADMIN
+[2026-07-02 17:41:53] [INFO] Entity saved to data/delivery_partners.dat
+[2026-07-02 17:41:53] [INFO] New delivery partner registered: mr_abc | ID: EE539411
+[2026-07-02 17:43:11] [INFO] Repository initialized for: data/admins.dat | Records: 1
+[2026-07-02 17:43:11] [INFO] Repository initialized for: data/customers.dat | Records: 0
+[2026-07-02 17:43:11] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
+[2026-07-02 17:43:11] [INFO] Repository initialized for: data/menu_items.dat | Records: 2
+[2026-07-02 17:43:11] [INFO] Repository initialized for: data/orders.dat | Records: 1
+[2026-07-02 17:43:11] [INFO] Application started successfully.
+[2026-07-02 17:44:05] [INFO] Entity saved to data/customers.dat
+[2026-07-02 17:44:05] [INFO] New customer registered: mr_abc | ID: 7B0C5BC0
+[2026-07-02 17:44:20] [INFO] User logged in: mr_abc | Role: CUSTOMER
+[2026-07-02 17:46:46] [INFO] Item added to cart: Cheese Burger x1
+[2026-07-02 17:48:53] [INFO] Cart quantity updated: Cheese Burger -> 3
+[2026-07-02 17:49:34] [INFO] Entity updated in data/customers.dat | ID: 7B0C5BC0
+[2026-07-02 17:50:25] [INFO] Cash payment processed for Rs. 450.00
+[2026-07-02 17:50:47] [INFO] User logged in: admin | Role: ADMIN
+[2026-07-02 17:51:41] [INFO] Entity saved to data/delivery_partners.dat
+[2026-07-02 17:51:41] [INFO] New delivery partner registered: xyz | ID: 9D9C53E3
+[2026-07-02 17:52:54] [INFO] Entity saved to data/menu_items.dat
+[2026-07-02 17:52:54] [INFO] Menu item added: pepsi | Rs. 20.0 | ID: 0E6374F8
+[2026-07-02 17:53:14] [INFO] Entity saved to data/menu_items.dat
+[2026-07-02 17:53:14] [INFO] Menu item added: cola | Rs. 12.909 | ID: 2C877B24
+[2026-07-02 17:53:57] [INFO] User logged in: xyz | Role: DELIVERY_PARTNER
+[2026-07-02 17:55:43] [INFO] User logged in: admin | Role: ADMIN
+[2026-07-02 17:59:10] [INFO] Entity saved to data/delivery_partners.dat
+[2026-07-02 17:59:10] [INFO] New delivery partner registered: aizen | ID: 99FD93FF
+[2026-07-02 18:00:02] [INFO] Application shutting down.
+[2026-07-03 10:39:22] [INFO] Repository initialized for: data/admins.dat | Records: 1
+[2026-07-03 10:39:22] [INFO] Repository initialized for: data/customers.dat | Records: 1
+[2026-07-03 10:39:22] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 2
+[2026-07-03 10:39:22] [INFO] Repository initialized for: data/menu_items.dat | Records: 4
+[2026-07-03 10:39:22] [INFO] Repository initialized for: data/orders.dat | Records: 1
+[2026-07-03 10:39:22] [INFO] Application started successfully.
+[2026-07-03 10:57:59] [INFO] Repository initialized for: data/admins.dat | Records: 1
+[2026-07-03 10:57:59] [INFO] Repository initialized for: data/customers.dat | Records: 1
+[2026-07-03 10:57:59] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 2
+[2026-07-03 10:57:59] [INFO] Repository initialized for: data/menu_items.dat | Records: 4
+[2026-07-03 10:57:59] [INFO] Repository initialized for: data/orders.dat | Records: 1
+[2026-07-03 10:57:59] [INFO] Application started successfully.
+[2026-07-03 10:59:14] [INFO] User logged in: xyz | Role: DELIVERY_PARTNER
+[2026-07-03 10:59:27] [INFO] Login failed - user not found: abc
+[2026-07-03 10:59:44] [INFO] User logged in: mr_abc | Role: CUSTOMER
+[2026-07-03 10:59:58] [INFO] Item added to cart: pepsi x3
+[2026-07-03 11:01:15] [INFO] Cart cleared for customer: 7B0C5BC0
+[2026-07-03 12:22:21] [INFO] Repository initialized for: data/admins.dat | Records: 1
+[2026-07-03 12:22:21] [INFO] Repository initialized for: data/customers.dat | Records: 1
+[2026-07-03 12:22:21] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 2
+[2026-07-03 12:22:21] [INFO] Repository initialized for: data/menu_items.dat | Records: 4
+[2026-07-03 12:22:21] [INFO] Repository initialized for: data/orders.dat | Records: 1
+[2026-07-03 12:22:21] [INFO] Application started successfully.
+[2026-07-18 16:35:34] [INFO] Default admin seeded: admin
+[2026-07-18 16:35:36] [INFO] New delivery partner registered: driver1 | Username: driver1
+[2026-07-18 16:35:37] [INFO] New customer registered: cust1 | Username: cust1
+[2026-07-18 16:35:37] [INFO] Menu item added: Paneer Butter Masala | Rs. 250.0 | Name: Paneer Butter Masala
+[2026-07-18 16:35:38] [INFO] Menu item added: Margherita Pizza | Rs. 399.0 | Name: Margherita Pizza
+[2026-07-18 16:38:09] [INFO] Default admin seeded: admin
+[2026-07-18 16:38:10] [INFO] New delivery partner registered: driver1 | Username: driver1
+[2026-07-18 16:38:12] [INFO] New customer registered: cust1 | Username: cust1
+[2026-07-18 16:38:12] [INFO] Menu item added: Paneer Butter Masala | Rs. 250.0 | Name: Paneer Butter Masala
+[2026-07-18 16:38:12] [INFO] Menu item added: Margherita Pizza | Rs. 399.0 | Name: Margherita Pizza
+[2026-07-18 16:38:13] [INFO] Item added to cart: Paneer Butter Masala x2
+[2026-07-18 16:38:14] [INFO] Item added to cart: Margherita Pizza x1
+[2026-07-18 16:38:16] [INFO] Cash payment processed for Rs. 809.10
+[2026-07-18 16:38:16] [INFO] Delivery partner assigned: Driver One | ID: 1
+[2026-07-18 16:38:16] [INFO] Order created | Customer: Customer One | Total: Rs. 809.1
+[2026-07-18 16:38:17] [INFO] Cart cleared for customer: 1
+[2026-07-18 16:38:17] [INFO] Order placed successfully | Order ID: 1
+[2026-07-18 16:39:20] [INFO] Default admin seeded: admin
+[2026-07-18 16:39:22] [INFO] New delivery partner registered: driver1 | Username: driver1
+[2026-07-18 16:39:23] [INFO] New customer registered: cust1 | Username: cust1
+[2026-07-18 16:39:24] [INFO] Menu item added: Paneer Butter Masala | Rs. 250.0 | Name: Paneer Butter Masala
+[2026-07-18 16:39:24] [INFO] Menu item added: Margherita Pizza | Rs. 399.0 | Name: Margherita Pizza
+[2026-07-18 16:39:25] [INFO] Item added to cart: Paneer Butter Masala x2
+[2026-07-18 16:39:25] [INFO] Item added to cart: Margherita Pizza x1
+[2026-07-18 16:39:27] [INFO] Cash payment processed for Rs. 809.10
+[2026-07-18 16:39:27] [INFO] Delivery partner assigned: Driver One | ID: 1
+[2026-07-18 16:39:28] [INFO] Order created | Customer: Customer One | Total: Rs. 809.1
+[2026-07-18 16:39:28] [INFO] Cart cleared for customer: 1
+[2026-07-18 16:39:28] [INFO] Order placed successfully | Order ID: 1
+[2026-07-18 16:39:29] [INFO] Order 1 status updated to: PREPARING
+[2026-07-18 16:39:30] [INFO] Order 1 status updated to: OUT_FOR_DELIVERY
+[2026-07-18 16:39:31] [INFO] Driver Driver One marked available after delivery
+[2026-07-18 16:39:31] [INFO] Order 1 status updated to: DELIVERED
+[2026-07-18 16:43:11] [INFO] Application started successfully.
+[2026-07-18 16:43:20] [INFO] User logged in: admin | Role: ADMIN
+[2026-07-18 16:45:25] [INFO] Default admin seeded: admin
+[2026-07-18 16:45:27] [INFO] New delivery partner registered: driver1 | Username: driver1
+[2026-07-18 16:45:28] [INFO] New customer registered: cust1 | Username: cust1
+[2026-07-18 16:45:28] [INFO] Menu item added: Paneer Butter Masala | Rs. 250.0 | Name: Paneer Butter Masala
+[2026-07-18 16:45:29] [INFO] Menu item added: Margherita Pizza | Rs. 399.0 | Name: Margherita Pizza
+[2026-07-18 16:45:29] [INFO] Item added to cart: Paneer Butter Masala x2
+[2026-07-18 16:45:30] [INFO] Item added to cart: Margherita Pizza x1
+[2026-07-18 16:45:32] [INFO] Cash payment processed for Rs. 809.10
+[2026-07-18 16:45:32] [INFO] Delivery partner assigned: Driver One | ID: 1
+[2026-07-18 16:45:32] [INFO] Order created | Customer: Customer One | Total: Rs. 809.1
+[2026-07-18 16:45:33] [INFO] Cart cleared for customer: 1
+[2026-07-18 16:45:33] [INFO] Order placed successfully | Order ID: 1
+[2026-07-18 16:45:33] [INFO] Order 1 status updated to: PREPARING
+[2026-07-18 16:45:34] [INFO] Order 1 status updated to: OUT_FOR_DELIVERY
+[2026-07-18 16:45:35] [INFO] Driver Driver One marked available after delivery
+[2026-07-18 16:45:35] [INFO] Order 1 status updated to: DELIVERED
+[2026-07-18 16:57:48] [INFO] Application started successfully.
+[2026-07-18 16:59:05] [INFO] Default admin seeded: admin
+[2026-07-18 16:59:07] [INFO] New delivery partner registered: driver1 | Username: driver1
+[2026-07-18 16:59:08] [INFO] New customer registered: cust1 | Username: cust1
+[2026-07-18 16:59:08] [INFO] Menu item added: Paneer Butter Masala | Rs. 250.0 | Name: Paneer Butter Masala
+[2026-07-18 16:59:09] [INFO] Menu item added: Margherita Pizza | Rs. 399.0 | Name: Margherita Pizza
+[2026-07-18 16:59:47] [INFO] Default admin seeded: admin
+[2026-07-18 16:59:48] [INFO] New delivery partner registered: driver1 | Username: driver1
+[2026-07-18 16:59:49] [INFO] New customer registered: cust1 | Username: cust1
+[2026-07-18 16:59:50] [INFO] Menu item added: Paneer Butter Masala | Rs. 250.0 | Name: Paneer Butter Masala
+[2026-07-18 16:59:50] [INFO] Menu item added: Margherita Pizza | Rs. 399.0 | Name: Margherita Pizza
+[2026-07-18 17:00:07] [INFO] User logged in: cust1 | Role: CUSTOMER
+[2026-07-18 17:00:55] [INFO] Default admin seeded: admin
+[2026-07-18 17:00:57] [INFO] New delivery partner registered: driver1 | Username: driver1
+[2026-07-18 17:00:58] [INFO] New customer registered: cust1 | Username: cust1
+[2026-07-18 17:00:58] [INFO] Menu item added: Paneer Butter Masala | Rs. 250.0 | Name: Paneer Butter Masala
+[2026-07-18 17:00:59] [INFO] Menu item added: Margherita Pizza | Rs. 399.0 | Name: Margherita Pizza
+[2026-07-18 17:00:59] [INFO] Item added to cart: Paneer Butter Masala x2
+[2026-07-18 17:01:00] [INFO] Item added to cart: Margherita Pizza x1
+[2026-07-18 17:01:01] [INFO] Cash payment processed for Rs. 809.10
+[2026-07-18 17:01:02] [INFO] Delivery partner assigned: Driver One | ID: 1
+[2026-07-18 17:01:02] [INFO] Order created | Customer: Customer One | Total: Rs. 809.1
+[2026-07-18 17:01:03] [INFO] Cart cleared for customer: 1
+[2026-07-18 17:01:03] [INFO] Order placed successfully | Order ID: 1
+[2026-07-18 17:01:03] [INFO] Order 1 status updated to: PREPARING
+[2026-07-18 17:01:04] [INFO] Order 1 status updated to: OUT_FOR_DELIVERY
+[2026-07-18 17:01:06] [INFO] Driver Driver One marked available after delivery
+[2026-07-18 17:01:06] [INFO] Order 1 status updated to: DELIVERED

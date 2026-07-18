@@ -24,4 +24,13 @@ public final class AppConfig {
     public static final int MIN_PASSWORD_LENGTH = 6;
     public static final double MAX_PRICE = 10000.0;
     public static final int MAX_QUANTITY = 50;
+
+    public static final String DB_URL =
+            "jdbc:postgresql://localhost:5432/food_app_db";
+
+    public static final String DB_USERNAME =
+            "postgres";
+
+    public static final String DB_PASSWORD =
+            "Temp@123456";
 }

@@ -72,6 +72,18 @@ public class InputUtil {
         }
     }
 
+    public static Long readLong(String prompt) {
+        while (true) {
+            System.out.print(prompt);
+            String input = scanner.nextLine().trim();
+            try {
+                return Long.parseLong(input);
+            } catch (NumberFormatException e) {
+                System.out.println("Error: Please enter a valid numeric ID.");
+            }
+        }
+    }
+
     public static boolean readYesNo(String prompt) {
         while (true) {
             String input = readString(prompt + " (y/n): ").toLowerCase();
@@ -189,10 +201,6 @@ public class InputUtil {
         return true;
     }
 
-    public static void pressEnterToContinue() {
-        System.out.print("\nPress Enter to continue...");
-        scanner.nextLine();
-    }
 
     public static void close() {
         scanner.close();

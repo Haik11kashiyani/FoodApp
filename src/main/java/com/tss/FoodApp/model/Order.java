@@ -10,22 +10,22 @@ import com.tss.FoodApp.repository.Identifiable;
 public class Order implements Serializable, Identifiable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
-    private String customerId;
+    private Long id;
+    private Long customerId;
     private String customerName;
     private List<CartItem> items;
     private double totalAmount;
     private double discountAmount;
     private double finalAmount;
     private PaymentMode paymentMode;
-    private String deliveryPartnerId;
+    private Long deliveryPartnerId;
     private String deliveryPartnerName;
     private OrderStatus status;
     private String orderedAt;
 
-    public Order(String id, String customerId, String customerName, List<CartItem> items,
+    public Order(Long id, Long customerId, String customerName, List<CartItem> items,
                  double totalAmount, double discountAmount, double finalAmount,
-                 PaymentMode paymentMode, String deliveryPartnerId, String deliveryPartnerName) {
+                 PaymentMode paymentMode, Long deliveryPartnerId, String deliveryPartnerName) {
         this.id = id;
         this.customerId = customerId;
         this.customerName = customerName;
@@ -40,21 +40,22 @@ public class Order implements Serializable, Identifiable {
         this.orderedAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    public String getId() { return id; }
-    public String getCustomerId() { return customerId; }
+    public Long getId() { return id; }
+    public Long getCustomerId() { return customerId; }
     public String getCustomerName() { return customerName; }
     public List<CartItem> getItems() { return items; }
     public double getTotalAmount() { return totalAmount; }
     public double getDiscountAmount() { return discountAmount; }
     public double getFinalAmount() { return finalAmount; }
     public PaymentMode getPaymentMode() { return paymentMode; }
-    public String getDeliveryPartnerId() { return deliveryPartnerId; }
+    public Long getDeliveryPartnerId() { return deliveryPartnerId; }
     public String getDeliveryPartnerName() { return deliveryPartnerName; }
     public OrderStatus getStatus() { return status; }
     public String getOrderedAt() { return orderedAt; }
 
-    public void setId(String id) { this.id = id; }
+    public void setId(Long id) { this.id = id; }
     public void setStatus(OrderStatus status) { this.status = status; }
+    public void setItems(java.util.List<CartItem> items) { this.items = items; }
 
     @Override
     public String toString() {

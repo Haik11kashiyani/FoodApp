@@ -9,7 +9,7 @@ import com.tss.FoodApp.repository.Identifiable;
 public class MenuItem implements Serializable, Identifiable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private Long id;
     private String name;
     private double price;
     private FoodCategory category;
@@ -17,7 +17,7 @@ public class MenuItem implements Serializable, Identifiable {
     private boolean isAvailable;
     private String createdAt;
 
-    public MenuItem(String id, String name, double price, FoodCategory category, CuisineType cuisineType) {
+    public MenuItem(Long id, String name, double price, FoodCategory category, CuisineType cuisineType) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -27,12 +27,12 @@ public class MenuItem implements Serializable, Identifiable {
         this.createdAt = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
-    public MenuItem(String id, String name, double price, FoodCategory category, CuisineType cuisineType, boolean isAvailable) {
+    public MenuItem(Long id, String name, double price, FoodCategory category, CuisineType cuisineType, boolean isAvailable) {
         this(id, name, price, category, cuisineType);
         this.isAvailable = isAvailable;
     }
 
-    public String getId() { return id; }
+    public Long getId() { return id; }
     public String getName() { return name; }
     public double getPrice() { return price; }
     public FoodCategory getCategory() { return category; }
@@ -42,7 +42,7 @@ public class MenuItem implements Serializable, Identifiable {
     public boolean isAvailable() { return isAvailable; }
     public String getCreatedAt() { return createdAt; }
 
-    public void setId(String id) { this.id = id; }
+    public void setId(Long id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setPrice(double price) { this.price = price; }
     public void setCategory(FoodCategory category) { this.category = category; }

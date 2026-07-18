@@ -226,7 +226,7 @@ public class CustomerMenu {
             return;
         }
 
-        String itemId = InputUtil.readString("Enter item ID to add: ");
+        Long itemId = InputUtil.readLong("Enter item ID to add: ");
         MenuItem item = menuService.getItemById(itemId);
 
         if (!item.isAvailable()) {
@@ -253,7 +253,7 @@ public class CustomerMenu {
         viewCart();
         if (cartService.isCartEmpty(customer.getId())) return;
 
-        String itemId = InputUtil.readString("Enter item ID to remove: ");
+        Long itemId = InputUtil.readLong("Enter item ID to remove: ");
         cartService.removeFromCart(customer.getId(), itemId);
         System.out.println("Item removed from cart.");
     }
@@ -262,7 +262,7 @@ public class CustomerMenu {
         viewCart();
         if (cartService.isCartEmpty(customer.getId())) return;
 
-        String itemId = InputUtil.readString("Enter item ID to update: ");
+        Long itemId = InputUtil.readLong("Enter item ID to update: ");
         int newQty = InputUtil.readInt("New quantity (1-50): ", 1, AppConfig.MAX_QUANTITY);
         cartService.updateQuantity(customer.getId(), itemId, newQty);
         System.out.println("Quantity updated.");
@@ -329,7 +329,7 @@ public class CustomerMenu {
         printItemsList(orders, "YOUR ORDERS");
 
         if (InputUtil.readYesNo("View order details?")) {
-            String orderId = InputUtil.readString("Enter order ID: ");
+            Long orderId = InputUtil.readLong("Enter order ID: ");
             Order foundOrder = null;
             for (Order o : orders) {
                 if (o.getId().equals(orderId)) {

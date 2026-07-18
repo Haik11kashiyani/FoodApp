@@ -8,7 +8,6 @@ import com.tss.FoodApp.exception.AppException;
 import com.tss.FoodApp.exception.EntityNotFoundException;
 import com.tss.FoodApp.exception.ValidationException;
 import com.tss.FoodApp.util.AppLogger;
-import com.tss.FoodApp.util.IdGenerator;
 import com.tss.FoodApp.util.InputUtil;
 
 public class OrderService {
@@ -21,14 +20,13 @@ public class OrderService {
         this.driverRepo = driverRepo;
     }
 
-    public Order createOrder(String customerId, String customerName, List<CartItem> items,
+    public Order createOrder(Long customerId, String customerName, List<CartItem> items,
                              double totalAmount, double discountAmount, double finalAmount,
-                             PaymentMode paymentMode, String driverId, String driverName) {
-        String id = IdGenerator.generateId();
-        Order order = new Order(id, customerId, customerName, items,
+                             PaymentMode paymentMode, Long driverId, String driverName) {
+        Order order = new Order(null, customerId, customerName, items,
                 totalAmount, discountAmount, finalAmount, paymentMode, driverId, driverName);
         orderRepo.save(order);
-        AppLogger.info("Order created: " + id + " | Customer: " + customerName + " | Total: Rs. " + finalAmount);
+        AppLogger.info("Order created | Customer: " + customerName + " | Total: Rs. " + finalAmount);
         return order;
     }
 
@@ -49,10 +47,10 @@ public class OrderService {
         return selected;
     }
 
-    public Order updateOrderStatus(String orderId, OrderStatus newStatus) {
+    public Order updateOrderStatus(Long orderId, OrderStatus newStatus) {
         Order order = orderRepo.findById(orderId);
         if (order == null) {
-            throw new EntityNotFoundException("Order", orderId);
+            throw new EntityNotFoundException("Order", String.valueOf(orderId));
         }
 
         if (!order.getStatus().canTransitionTo(newStatus)) {
@@ -87,7 +85,7 @@ public class OrderService {
         }
     }
 
-    public List<Order> getOrdersByCustomer(String customerId) {
+    public List<Order> getOrdersByCustomer(Long customerId) {
         List<Order> customerOrders = new ArrayList<>();
         for (Order o : orderRepo.findAll()) {
             if (o.getCustomerId().equals(customerId)) {
@@ -103,7 +101,7 @@ public class OrderService {
         return customerOrders;
     }
 
-    public List<Order> getOrdersByDriver(String driverId) {
+    public List<Order> getOrdersByDriver(Long driverId) {
         List<Order> driverOrders = new ArrayList<>();
         for (Order o : orderRepo.findAll()) {
             if (o.getDeliveryPartnerId().equals(driverId)) {
@@ -119,7 +117,7 @@ public class OrderService {
         return driverOrders;
     }
 
-    public List<Order> getActiveOrdersForDriver(String driverId) {
+    public List<Order> getActiveOrdersForDriver(Long driverId) {
         List<Order> activeOrders = new ArrayList<>();
         for (Order o : orderRepo.findAll()) {
             if (o.getDeliveryPartnerId().equals(driverId)) {

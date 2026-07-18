@@ -61,13 +61,16 @@ public class AppFacade {
 
             switch (user.getRole()) {
                 case ADMIN:
-                    new AdminMenu(user, registry).show();
+                    AdminMenu adminMenu = new AdminMenu(user, registry);
+                    adminMenu.show();
                     break;
                 case CUSTOMER:
-                    new CustomerMenu(user, registry).show();
+                    CustomerMenu customerMenu=new CustomerMenu(user, registry);
+                    customerMenu.show();
                     break;
                 case DELIVERY_PARTNER:
-                    new DeliveryPartnerMenu(user, registry).show();
+                    DeliveryPartnerMenu deliveryPartnerMenu=new DeliveryPartnerMenu(user, registry);
+                    deliveryPartnerMenu.show();
                     break;
                 default:
                     throw new AppException("No dashboard registered for role: " + user.getRole());

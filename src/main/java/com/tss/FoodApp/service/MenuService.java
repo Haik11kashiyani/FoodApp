@@ -9,7 +9,6 @@ import com.tss.FoodApp.repository.Repository;
 import com.tss.FoodApp.exception.EntityNotFoundException;
 import com.tss.FoodApp.exception.ValidationException;
 import com.tss.FoodApp.util.AppLogger;
-import com.tss.FoodApp.util.IdGenerator;
 
 public class MenuService {
     private final Repository<MenuItem> menuRepo;
@@ -26,17 +25,16 @@ public class MenuService {
             throw new ValidationException("Price must be greater than zero.");
         }
 
-        String id = IdGenerator.generateId();
-        MenuItem item = new MenuItem(id, name, price, category, cuisineType);
+        MenuItem item = new MenuItem(null, name, price, category, cuisineType);
         menuRepo.save(item);
-        AppLogger.info("Menu item added: " + name + " | Rs. " + price + " | ID: " + id);
+        AppLogger.info("Menu item added: " + name + " | Rs. " + price + " | Name: " + name);
         return item;
     }
 
-    public MenuItem updateItem(String id, String newName, double newPrice, FoodCategory newCategory, CuisineType newCuisineType) {
+    public MenuItem updateItem(Long id, String newName, double newPrice, FoodCategory newCategory, CuisineType newCuisineType) {
         MenuItem item = menuRepo.findById(id);
         if (item == null) {
-            throw new EntityNotFoundException("MenuItem", id);
+            throw new EntityNotFoundException("MenuItem", String.valueOf(id));
         }
 
         item.setName(newName);
@@ -48,10 +46,10 @@ public class MenuService {
         return item;
     }
 
-    public boolean deleteItem(String itemId) {
+    public boolean deleteItem(Long itemId) {
         boolean deleted = menuRepo.deleteById(itemId);
         if (!deleted) {
-            throw new EntityNotFoundException("MenuItem", itemId);
+            throw new EntityNotFoundException("MenuItem", String.valueOf(itemId));
         }
         AppLogger.info("Menu item deleted | ID: " + itemId);
         return true;
@@ -115,21 +113,11 @@ public class MenuService {
         return available;
     }
 
-    public List<MenuItem> sortByName() {
-        List<MenuItem> available = getAvailableItems();
-        available.sort(new Comparator<MenuItem>() {
-            @Override
-            public int compare(MenuItem m1, MenuItem m2) {
-                return m1.getName().compareTo(m2.getName());
-            }
-        });
-        return available;
-    }
 
-    public MenuItem getItemById(String itemId) {
+    public MenuItem getItemById(Long itemId) {
         MenuItem item = menuRepo.findById(itemId);
         if (item == null) {
-            throw new EntityNotFoundException("MenuItem", itemId);
+            throw new EntityNotFoundException("MenuItem", String.valueOf(itemId));
         }
         return item;
     }
