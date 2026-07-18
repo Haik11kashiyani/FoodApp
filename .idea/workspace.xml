@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="17cb6f49-d5b6-4031-b14e-9e9b75220c39" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/config/DatabaseConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/jdbc/AdminJdbcRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/jdbc/CustomerJdbcRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/jdbc/DeliveryPartnerJdbcRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/jdbc/JdbcUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/jdbc/MenuItemJdbcRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/jdbc/OrderJdbcRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/jdbc/UserJdbcRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/customers.dat" beforeDir="false" afterPath="$PROJECT_DIR$/data/customers.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/delivery_partners.dat" beforeDir="false" afterPath="$PROJECT_DIR$/data/delivery_partners.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/menu_items.dat" beforeDir="false" afterPath="$PROJECT_DIR$/data/menu_items.dat" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/logs/app.log" beforeDir="false" afterPath="$PROJECT_DIR$/logs/app.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/AppFacade.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/AppFacade.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/ServiceRegistry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/ServiceRegistry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/TestRunner.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/config/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/config/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/Admin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/Admin.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/CartItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/CartItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/Customer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/DeliveryPartner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/DeliveryPartner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/MenuItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/MenuItem.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/FileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/FileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/Identifiable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/Identifiable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/Repository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/repository/Repository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/AuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/AuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/CartService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/CartService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/MenuService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/OrderProcessor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/OrderProcessor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/OrderService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/OrderService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/PercentageDiscount.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/PercentageDiscount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/ui/AdminMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/ui/AdminMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/ui/CustomerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/ui/CustomerMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/ui/DeliveryPartnerMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/ui/DeliveryPartnerMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/util/InputUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/tss/FoodApp/util/InputUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tss/FoodApp/service/AuthServiceTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/tss/FoodApp/service/CartServiceTest.java" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
+  <component name="ProjectId" id="3FqIvZmZchLRVzdq3s3dSSNhV6C" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.MainApp.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "git-widget-placeholder": "feature/postgresql-migration",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/hardik_kashiyani/miniFoodApp/FoodApp",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="MainApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.tss.FoodApp.MainApp" />
+      <module name="FoodApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.tss.FoodApp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MainApp" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="17cb6f49-d5b6-4031-b14e-9e9b75220c39" name="Changes" comment="" />
+      <created>1782796406338</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1782796406338</updated>
+      <workItem from="1782796410211" duration="17699000" />
+      <workItem from="1782823387511" duration="1691000" />
+      <workItem from="1782880092296" duration="15804000" />
+      <workItem from="1782994105450" duration="1408000" />
+      <workItem from="1782995807693" duration="313000" />
+      <workItem from="1782997245933" duration="835000" />
+      <workItem from="1783052692492" duration="600000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

@@ -1,0 +1,182 @@
+Index: src/main/java/com/tss/FoodApp/MainApp.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.tss.FoodApp;\r\n\r\nimport java.util.concurrent.ExecutorService;\r\nimport java.util.concurrent.Executors;\r\nimport java.util.concurrent.TimeUnit;\r\nimport com.tss.FoodApp.model.*;\r\nimport com.tss.FoodApp.exception.*;\r\nimport com.tss.FoodApp.service.AuthService;\r\nimport com.tss.FoodApp.ui.DashboardFactory;\r\nimport com.tss.FoodApp.util.AppLogger;\r\nimport com.tss.FoodApp.util.InputUtil;\r\n\r\npublic class MainApp {\r\n\r\n    public static void main(String[] args) {\r\n        ServiceRegistry registry = ServiceRegistry.getInstance();\r\n        registry.getAuthService().seedDefaultAdmin();\r\n\r\n        AppLogger.info(\"Application started successfully.\");\r\n\r\n        ExecutorService mainExecutor = Executors.newSingleThreadExecutor();\r\n        mainExecutor.submit(() -> {\r\n            boolean appRunning = true;\r\n            while (appRunning) {\r\n                System.out.println(\"\\n=== FOOD ORDERING SYSTEM ===\");\r\n                System.out.println(\"1. Login\");\r\n                System.out.println(\"2. Register as Customer\");\r\n                System.out.println(\"3. Exit\");\r\n\r\n                int choice = InputUtil.readInt(\"Enter choice: \", 1, 3);\r\n\r\n                switch (choice) {\r\n                    case 1:\r\n                        handleLogin(registry);\r\n                        break;\r\n                    case 2:\r\n                        handleRegistration(registry);\r\n                        break;\r\n                    case 3:\r\n                        System.out.println(\"Thank you for using Food Ordering System! Goodbye!\");\r\n                        AppLogger.info(\"Application shutting down.\");\r\n                        InputUtil.close();\r\n                        appRunning = false;\r\n                        break;\r\n                }\r\n            }\r\n        });\r\n\r\n        mainExecutor.shutdown();\r\n        try {\r\n            mainExecutor.awaitTermination(1, TimeUnit.DAYS);\r\n        } catch (InterruptedException e) {\r\n            Thread.currentThread().interrupt();\r\n        }\r\n    }\r\n\r\n    private static void handleLogin(ServiceRegistry registry) {\r\n        System.out.println(\"\\n=== LOGIN ===\");\r\n        String username = InputUtil.readString(\"Username: \");\r\n        String password = InputUtil.readString(\"Password: \");\r\n\r\n        try {\r\n            AuthService authService = registry.getAuthService();\r\n            User user = authService.login(username, password);\r\n\r\n            System.out.println(\"Welcome, \" + user.getName() + \"!\");\r\n\r\n            DashboardFactory factory = registry.getDashboardFactory(user.getRole());\r\n            if (factory != null) {\r\n                factory.showDashboard(user, registry);\r\n            } else {\r\n                throw new AppException(\"No dashboard factory registered for role: \" + user.getRole());\r\n            }\r\n        } catch (AuthenticationException e) {\r\n            System.out.println(\"Error: Login failed: \" + e.getMessage());\r\n        } catch (AppException e) {\r\n            System.out.println(\"Error: \" + e.getMessage());\r\n        }\r\n    }\r\n\r\n    private static void handleRegistration(ServiceRegistry registry) {\r\n        System.out.println(\"\\n=== REGISTER AS CUSTOMER ===\");\r\n\r\n        String username = InputUtil.readValidUsername(\"Choose username: \");\r\n        if (username == null) return;\r\n\r\n        String password = InputUtil.readValidPassword(\"Choose password: \");\r\n        if (password == null) return;\r\n\r\n        String name = InputUtil.readString(\"Full name: \");\r\n\r\n        String phone = InputUtil.readValidPhone(\"Phone number: \");\r\n        if (phone == null) return;\r\n\r\n        String address = InputUtil.readLine(\"Delivery address: \");\r\n\r\n        try {\r\n            Customer customer = registry.getAuthService().registerCustomer(\r\n                    username, password, name, phone, address);\r\n            System.out.println(\"Registration successful! Your ID: \" + customer.getId());\r\n            System.out.println(\"You can now login with your credentials.\");\r\n        } catch (AppException e) {\r\n            System.out.println(\"Error: Registration failed: \" + e.getMessage());\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/tss/FoodApp/MainApp.java b/src/main/java/com/tss/FoodApp/MainApp.java
+--- a/src/main/java/com/tss/FoodApp/MainApp.java	(revision fa504aa2accf61044738676f9f010df7eba44139)
++++ b/src/main/java/com/tss/FoodApp/MainApp.java	(date 1782818824287)
+@@ -38,7 +38,6 @@
+                         break;
+                     case 3:
+                         System.out.println("Thank you for using Food Ordering System! Goodbye!");
+-                        AppLogger.info("Application shutting down.");
+                         InputUtil.close();
+                         appRunning = false;
+                         break;
+Index: logs/app.log
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/admins.dat\r\n[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/customers.dat\r\n[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/delivery_partners.dat\r\n[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/menu_items.dat\r\n[2026-06-29 19:44:01] [INFO] Repository initialized lazily for: data/orders.dat\r\n[2026-06-29 19:44:01] [INFO] Application starting with lazy loading...\r\n[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/customers.dat | Records: 0\r\n[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/admins.dat | Records: 0\r\n[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/menu_items.dat | Records: 0\r\n[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/delivery_partners.dat | Records: 0\r\n[2026-06-29 19:44:01] [INFO] Data lazily loaded from data/orders.dat | Records: 0\r\n[2026-06-29 19:44:01] [INFO] Entity saved to data/admins.dat\r\n[2026-06-29 19:44:01] [INFO] Default admin seeded: admin\r\n[2026-06-29 19:44:01] [INFO] Application started successfully.\r\n[2026-06-29 19:45:07] [INFO] User logged in: admin | Role: ADMIN\r\n[2026-06-29 19:45:07] [INFO] Application shutting down.\r\n[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/admins.dat\r\n[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/customers.dat\r\n[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/delivery_partners.dat\r\n[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/menu_items.dat\r\n[2026-06-29 19:54:35] [INFO] Repository initialized lazily for: data/orders.dat\r\n[2026-06-29 19:54:35] [INFO] Application starting with lazy loading...\r\n[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/customers.dat | Records: 0\r\n[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/delivery_partners.dat | Records: 0\r\n[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/menu_items.dat | Records: 0\r\n[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/orders.dat | Records: 0\r\n[2026-06-29 19:54:35] [ERROR] Failed to load data from data/admins.dat | Cause: com.tss.FoodApp.Admin\r\n[2026-06-29 19:54:35] [INFO] Data lazily loaded from data/admins.dat | Records: 0\r\n[2026-06-29 19:54:35] [INFO] Entity saved to data/admins.dat\r\n[2026-06-29 19:54:35] [INFO] Default admin seeded: admin\r\n[2026-06-29 19:54:35] [INFO] Application started successfully.\r\n[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/admins.dat\r\n[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/customers.dat\r\n[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/delivery_partners.dat\r\n[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/menu_items.dat\r\n[2026-06-29 19:54:57] [INFO] Repository initialized lazily for: data/orders.dat\r\n[2026-06-29 19:54:57] [INFO] Application starting with lazy loading...\r\n[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/customers.dat | Records: 0\r\n[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/admins.dat | Records: 0\r\n[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/delivery_partners.dat | Records: 0\r\n[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/menu_items.dat | Records: 0\r\n[2026-06-29 19:54:57] [INFO] Data lazily loaded from data/orders.dat | Records: 0\r\n[2026-06-29 19:54:57] [INFO] Entity saved to data/admins.dat\r\n[2026-06-29 19:54:57] [INFO] Default admin seeded: admin\r\n[2026-06-29 19:54:57] [INFO] Application started successfully.\r\n[2026-06-29 19:55:12] [INFO] User logged in: admin | Role: ADMIN\r\n[2026-06-29 19:55:12] [INFO] Application shutting down.\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/logs/app.log b/logs/app.log
+--- a/logs/app.log	(revision fa504aa2accf61044738676f9f010df7eba44139)
++++ b/logs/app.log	(date 1782812507444)
+@@ -45,3 +45,57 @@
+ [2026-06-29 19:54:57] [INFO] Application started successfully.
+ [2026-06-29 19:55:12] [INFO] User logged in: admin | Role: ADMIN
+ [2026-06-29 19:55:12] [INFO] Application shutting down.
++[2026-06-30 10:44:18] [INFO] Repository initialized for: data/admins.dat | Records: 1
++[2026-06-30 10:44:18] [INFO] Repository initialized for: data/customers.dat | Records: 0
++[2026-06-30 10:44:18] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
++[2026-06-30 10:44:18] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
++[2026-06-30 10:44:18] [INFO] Repository initialized for: data/orders.dat | Records: 0
++[2026-06-30 10:44:18] [INFO] Application started successfully.
++[2026-06-30 11:23:14] [INFO] Repository initialized for: data/admins.dat | Records: 1
++[2026-06-30 11:23:14] [INFO] Repository initialized for: data/customers.dat | Records: 0
++[2026-06-30 11:23:14] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
++[2026-06-30 11:23:14] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
++[2026-06-30 11:23:14] [INFO] Repository initialized for: data/orders.dat | Records: 0
++[2026-06-30 11:23:14] [INFO] Application started successfully.
++[2026-06-30 11:24:46] [INFO] User logged in: admin | Role: ADMIN
++[2026-06-30 11:25:21] [INFO] Repository initialized for: data/admins.dat | Records: 1
++[2026-06-30 11:25:21] [INFO] Repository initialized for: data/customers.dat | Records: 0
++[2026-06-30 11:25:21] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
++[2026-06-30 11:25:21] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
++[2026-06-30 11:25:21] [INFO] Repository initialized for: data/orders.dat | Records: 0
++[2026-06-30 11:25:21] [INFO] Application started successfully.
++[2026-06-30 11:25:34] [INFO] Repository initialized for: data/admins.dat | Records: 1
++[2026-06-30 11:25:34] [INFO] Repository initialized for: data/customers.dat | Records: 0
++[2026-06-30 11:25:34] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
++[2026-06-30 11:25:34] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
++[2026-06-30 11:25:34] [INFO] Repository initialized for: data/orders.dat | Records: 0
++[2026-06-30 11:25:34] [INFO] Application started successfully.
++[2026-06-30 11:25:43] [INFO] User logged in: admin | Role: ADMIN
++[2026-06-30 11:26:56] [INFO] Repository initialized for: data/admins.dat | Records: 1
++[2026-06-30 11:26:56] [INFO] Repository initialized for: data/customers.dat | Records: 0
++[2026-06-30 11:26:56] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
++[2026-06-30 11:26:56] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
++[2026-06-30 11:26:56] [INFO] Repository initialized for: data/orders.dat | Records: 0
++[2026-06-30 11:26:56] [INFO] Application started successfully.
++[2026-06-30 11:27:40] [INFO] Repository initialized for: data/admins.dat | Records: 1
++[2026-06-30 11:27:40] [INFO] Repository initialized for: data/customers.dat | Records: 0
++[2026-06-30 11:27:40] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
++[2026-06-30 11:27:40] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
++[2026-06-30 11:27:40] [INFO] Repository initialized for: data/orders.dat | Records: 0
++[2026-06-30 11:27:40] [INFO] Application started successfully.
++[2026-06-30 11:28:08] [INFO] Repository initialized for: data/admins.dat | Records: 1
++[2026-06-30 11:28:08] [INFO] Repository initialized for: data/customers.dat | Records: 0
++[2026-06-30 11:28:08] [INFO] Repository initialized for: data/delivery_partners.dat | Records: 0
++[2026-06-30 11:28:08] [INFO] Repository initialized for: data/menu_items.dat | Records: 0
++[2026-06-30 11:28:08] [INFO] Repository initialized for: data/orders.dat | Records: 0
++[2026-06-30 11:28:08] [INFO] Application started successfully.
++2026-06-30 15:08:50 INFO Repository initialized for: data/admins.dat | Records: 1
++2026-06-30 15:08:50 INFO Repository initialized for: data/customers.dat | Records: 0
++2026-06-30 15:08:50 INFO Repository initialized for: data/delivery_partners.dat | Records: 0
++2026-06-30 15:08:50 INFO Repository initialized for: data/menu_items.dat | Records: 0
++2026-06-30 15:08:50 INFO Repository initialized for: data/orders.dat | Records: 0
++2026-06-30 15:08:50 INFO Application started successfully.
++2026-06-30 15:09:10 INFO User logged in: admin | Role: ADMIN
++2026-06-30 15:10:55 INFO Entity saved to data/delivery_partners.dat
++2026-06-30 15:10:55 INFO New delivery partner registered: mrabc | ID: 203697B2
++2026-06-30 15:11:47 INFO User logged in: mrabc | Role: DELIVERY_PARTNER
+Index: src/main/java/com/tss/FoodApp/ServiceRegistry.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.tss.FoodApp;\r\n\r\nimport java.util.ArrayList;\r\nimport java.util.HashMap;\r\nimport java.util.List;\r\nimport java.util.Map;\r\nimport com.tss.FoodApp.config.AppConfig;\r\nimport com.tss.FoodApp.model.*;\r\nimport com.tss.FoodApp.repository.*;\r\nimport com.tss.FoodApp.service.*;\r\nimport com.tss.FoodApp.ui.*;\r\nimport com.tss.FoodApp.util.*;\r\n\r\n/**\r\n * SINGLETON PATTERN + FACTORY METHOD\r\n */\r\npublic class ServiceRegistry {\r\n\r\n    private static volatile ServiceRegistry instance;\r\n\r\n    // --- Repositories ---\r\n    private final Repository<Admin> adminRepo;\r\n    private final Repository<Customer> customerRepo;\r\n    private final Repository<DeliveryPartner> driverRepo;\r\n    private final Repository<MenuItem> menuRepo;\r\n    private final Repository<Order> orderRepo;\r\n\r\n    // --- Services ---\r\n    private final AuthService authService;\r\n    private final UserService userService;\r\n    private final MenuService menuService;\r\n    private final CartService cartService;\r\n    private final OrderService orderService;\r\n\r\n    // --- Facade ---\r\n    private final OrderProcessingFacade orderFacade;\r\n\r\n    // --- SOLID registries ---\r\n    private final Map<Role, DashboardFactory> dashboardFactories;\r\n\r\n    private ServiceRegistry() {\r\n        this.adminRepo = new FileRepository<>(AppConfig.ADMIN_FILE);\r\n        this.customerRepo = new FileRepository<>(AppConfig.CUSTOMER_FILE);\r\n        this.driverRepo = new FileRepository<>(AppConfig.DELIVERY_PARTNER_FILE);\r\n        this.menuRepo = new FileRepository<>(AppConfig.MENU_FILE);\r\n        this.orderRepo = new FileRepository<>(AppConfig.ORDER_FILE);\r\n\r\n        this.authService = new AuthService(adminRepo, customerRepo, driverRepo);\r\n        this.userService = new UserService(adminRepo, customerRepo, driverRepo);\r\n        this.menuService = new MenuService(menuRepo);\r\n        this.cartService = new CartService();\r\n\r\n        // Wire Order Event Listeners (OCP)\r\n        List<OrderEventListener> listeners = new ArrayList<>();\r\n        listeners.add(new DriverAvailabilityListener(driverRepo));\r\n\r\n        this.orderService = new OrderService(orderRepo, driverRepo, listeners);\r\n\r\n        // Inject payment strategies map\r\n        Map<PaymentMode, IPaymentStrategy> paymentStrategies = new HashMap<>();\r\n        paymentStrategies.put(PaymentMode.CASH, new CashPayment());\r\n        paymentStrategies.put(PaymentMode.UPI, new UpiPayment());\r\n\r\n        // Default discount strategy (OCP)\r\n        DiscountStrategy discountStrategy = new PercentageDiscount(\r\n                AppConfig.DEFAULT_DISCOUNT_PERCENTAGE,\r\n                AppConfig.DEFAULT_DISCOUNT_THRESHOLD\r\n        );\r\n\r\n        this.orderFacade = new OrderProcessingFacade(cartService, orderService, paymentStrategies, discountStrategy);\r\n\r\n        // Wire Role Dashboard Factories (OCP + DIP)\r\n        this.dashboardFactories = new HashMap<>();\r\n        dashboardFactories.put(Role.ADMIN, (user, reg) -> new AdminMenu(user, reg).show());\r\n        dashboardFactories.put(Role.CUSTOMER, (user, reg) -> new CustomerMenu(user, reg).show());\r\n        dashboardFactories.put(Role.DELIVERY_PARTNER, (user, reg) -> new DeliveryPartnerMenu(user, reg).show());\r\n    }\r\n\r\n    public static ServiceRegistry getInstance() {\r\n        if (instance == null) {\r\n            synchronized (ServiceRegistry.class) {\r\n                if (instance == null) {\r\n                    instance = new ServiceRegistry();\r\n                }\r\n            }\r\n        }\r\n        return instance;\r\n    }\r\n\r\n    public static User createUser(Role role, String username, String password, String name,\r\n                                  String phone, String address, String vehicleType) {\r\n        String id = IdGenerator.generateId();\r\n        switch (role) {\r\n            case ADMIN:\r\n                return new Admin(id, username, password, name);\r\n            case CUSTOMER:\r\n                return new Customer(id, username, password, name, phone, address);\r\n            case DELIVERY_PARTNER:\r\n                return new DeliveryPartner(id, username, password, name, phone, vehicleType);\r\n            default:\r\n                throw new IllegalArgumentException(\"Unknown role: \" + role);\r\n        }\r\n    }\r\n\r\n    // ==================== GETTERS ====================\r\n\r\n    public AuthService getAuthService() { return authService; }\r\n    public UserService getUserService() { return userService; }\r\n    public MenuService getMenuService() { return menuService; }\r\n    public CartService getCartService() { return cartService; }\r\n    public OrderService getOrderService() { return orderService; }\r\n    public OrderProcessingFacade getOrderFacade() { return orderFacade; }\r\n\r\n    public Repository<Admin> getAdminRepo() { return adminRepo; }\r\n    public Repository<Customer> getCustomerRepo() { return customerRepo; }\r\n    public Repository<DeliveryPartner> getDriverRepo() { return driverRepo; }\r\n    public Repository<MenuItem> getMenuRepo() { return menuRepo; }\r\n    public Repository<Order> getOrderRepo() { return orderRepo; }\r\n\r\n    public DashboardFactory getDashboardFactory(Role role) {\r\n        return dashboardFactories.get(role);\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/tss/FoodApp/ServiceRegistry.java b/src/main/java/com/tss/FoodApp/ServiceRegistry.java
+--- a/src/main/java/com/tss/FoodApp/ServiceRegistry.java	(revision fa504aa2accf61044738676f9f010df7eba44139)
++++ b/src/main/java/com/tss/FoodApp/ServiceRegistry.java	(date 1782815818690)
+@@ -11,31 +11,28 @@
+ import com.tss.FoodApp.ui.*;
+ import com.tss.FoodApp.util.*;
+ 
+-/**
+- * SINGLETON PATTERN + FACTORY METHOD
+- */
+ public class ServiceRegistry {
+ 
+     private static volatile ServiceRegistry instance;
+ 
+-    // --- Repositories ---
++
+     private final Repository<Admin> adminRepo;
+     private final Repository<Customer> customerRepo;
+     private final Repository<DeliveryPartner> driverRepo;
+     private final Repository<MenuItem> menuRepo;
+     private final Repository<Order> orderRepo;
+ 
+-    // --- Services ---
++
+     private final AuthService authService;
+     private final UserService userService;
+     private final MenuService menuService;
+     private final CartService cartService;
+     private final OrderService orderService;
+ 
+-    // --- Facade ---
++
+     private final OrderProcessingFacade orderFacade;
+ 
+-    // --- SOLID registries ---
++
+     private final Map<Role, DashboardFactory> dashboardFactories;
+ 
+     private ServiceRegistry() {
+@@ -50,18 +47,18 @@
+         this.menuService = new MenuService(menuRepo);
+         this.cartService = new CartService();
+ 
+-        // Wire Order Event Listeners (OCP)
++
+         List<OrderEventListener> listeners = new ArrayList<>();
+         listeners.add(new DriverAvailabilityListener(driverRepo));
+ 
+         this.orderService = new OrderService(orderRepo, driverRepo, listeners);
+ 
+-        // Inject payment strategies map
++
+         Map<PaymentMode, IPaymentStrategy> paymentStrategies = new HashMap<>();
+         paymentStrategies.put(PaymentMode.CASH, new CashPayment());
+         paymentStrategies.put(PaymentMode.UPI, new UpiPayment());
+ 
+-        // Default discount strategy (OCP)
++
+         DiscountStrategy discountStrategy = new PercentageDiscount(
+                 AppConfig.DEFAULT_DISCOUNT_PERCENTAGE,
+                 AppConfig.DEFAULT_DISCOUNT_THRESHOLD
+@@ -69,7 +66,7 @@
+ 
+         this.orderFacade = new OrderProcessingFacade(cartService, orderService, paymentStrategies, discountStrategy);
+ 
+-        // Wire Role Dashboard Factories (OCP + DIP)
++
+         this.dashboardFactories = new HashMap<>();
+         dashboardFactories.put(Role.ADMIN, (user, reg) -> new AdminMenu(user, reg).show());
+         dashboardFactories.put(Role.CUSTOMER, (user, reg) -> new CustomerMenu(user, reg).show());
+Index: src/main/java/com/tss/FoodApp/util/AppLogger.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.tss.FoodApp.util;\r\n\r\nimport java.io.BufferedWriter;\r\nimport java.io.File;\r\nimport java.io.FileWriter;\r\nimport java.io.IOException;\r\nimport java.time.LocalDateTime;\r\nimport java.time.format.DateTimeFormatter;\r\nimport com.tss.FoodApp.config.AppConfig;\r\n\r\npublic class AppLogger {\r\n    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern(\"yyyy-MM-dd HH:mm:ss\");\r\n\r\n    private AppLogger() {}\r\n\r\n    public static void info(String message) {\r\n        writeToFile(\"INFO\", message);\r\n    }\r\n\r\n    public static void warn(String message) {\r\n        String formatted = format(\"WARN\", message);\r\n        System.out.println(\"  \" + message);\r\n        writeToFile(formatted);\r\n    }\r\n\r\n    public static void error(String message) {\r\n        String formatted = format(\"ERROR\", message);\r\n        System.out.println(\"  \" + message);\r\n        writeToFile(formatted);\r\n    }\r\n\r\n    public static void error(String message, Throwable e) {\r\n        error(message + \" | Cause: \" + e.getMessage());\r\n    }\r\n\r\n    private static String format(String level, String message) {\r\n        return \"[\" + LocalDateTime.now().format(FORMATTER) + \"] [\" + level + \"] \" + message;\r\n    }\r\n\r\n    private static void writeToFile(String level, String message) {\r\n        writeToFile(format(level, message));\r\n    }\r\n\r\n    private static void writeToFile(String formattedMessage) {\r\n        try {\r\n            File logDir = new File(AppConfig.LOG_DIR);\r\n            if (!logDir.exists()) {\r\n                logDir.mkdirs();\r\n            }\r\n            try (FileWriter fw = new FileWriter(AppConfig.LOG_FILE, true);\r\n                 BufferedWriter bw = new BufferedWriter(fw)) {\r\n                bw.write(formattedMessage);\r\n                bw.newLine();\r\n            }\r\n        } catch (IOException e) {\r\n            System.err.println(\"Failed to write log: \" + e.getMessage());\r\n        }\r\n    }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/com/tss/FoodApp/util/AppLogger.java b/src/main/java/com/tss/FoodApp/util/AppLogger.java
+--- a/src/main/java/com/tss/FoodApp/util/AppLogger.java	(revision fa504aa2accf61044738676f9f010df7eba44139)
++++ b/src/main/java/com/tss/FoodApp/util/AppLogger.java	(date 1782806547294)
+@@ -34,7 +34,7 @@
+     }
+ 
+     private static String format(String level, String message) {
+-        return "[" + LocalDateTime.now().format(FORMATTER) + "] [" + level + "] " + message;
++        return "" + LocalDateTime.now().format(FORMATTER) + " " + level + " " + message;
+     }
+ 
+     private static void writeToFile(String level, String message) {
